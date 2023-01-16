@@ -9,12 +9,12 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
       },
       android: {
-        justifyContent: "flex-start",
+        justifyContent: "center",
       },
     }),
   },
   image: {
-    flex: 1,
+    flex: 2,
     alignItems: "center",
     justifyContent: "flex-end",
   },
@@ -31,22 +31,24 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
     fontFamily: "Roboto-Reg",
     fontSize: 14,
-    focus: {
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-    },
+
     // shadowOffset: "0px, 4px",
     // shadowColor: "rgba(0, 0, 0, 0.25)",
+  },
+  shadowProp: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   },
   form: {
     alignItems: "center",
     backgroundColor: "#fff",
-    borderRadius: "15%",
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
     // marginHorizontal: 40,
     width: 330,
     padding: 25,
@@ -100,6 +102,12 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   signInText: {
+    fontFamily: "Roboto-Reg",
+    fontSize: 16,
+    lineHeight: 18,
+    marginBottom: 45,
+  },
+  logInText: {
     fontFamily: "Roboto-Reg",
     fontSize: 16,
     lineHeight: 18,
