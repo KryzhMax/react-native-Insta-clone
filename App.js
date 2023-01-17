@@ -36,39 +36,39 @@ export default function App() {
   // const [shadowOpacity, setShadowOpacity] = useState(0.25);
 
   // const [state, setState] = useState(initState);
-  // const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  // const [screenWidth, setScreenWidth] = useState(
-  //   Dimensions.get("window").width
-  // );
-  // const [inputFocus, setInputFocus] = useState(false);
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(
+    Dimensions.get("window").width
+  );
+  const [inputFocus, setInputFocus] = useState(false);
 
-  // const [fontsLoaded] = useFonts({
-  //   "Roboto-Reg": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
-  //   "Roboto-Bold": require("./assets/fonts/Roboto/Roboto-Bold.ttf"),
-  // });
+  const [fontsLoaded] = useFonts({
+    "Roboto-Reg": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
+    "Roboto-Bold": require("./assets/fonts/Roboto/Roboto-Bold.ttf"),
+  });
 
-  // useEffect(() => {
-  //   const onChange = () => {
-  //     const windowWidth = Dimensions.get("window").width;
-  //     // const windowHeight = Dimensions.get("window").height;
-  //     setScreenWidth(windowWidth);
-  //     // console.log("width", windowWidth);
-  //   };
-  //   const subscription = Dimensions.addEventListener("change", onChange);
-  //   return () => {
-  //     subscription.remove();
-  //   };
-  // }, []);
+  useEffect(() => {
+    const onChange = () => {
+      const windowWidth = Dimensions.get("window").width;
+      // const windowHeight = Dimensions.get("window").height;
+      setScreenWidth(windowWidth);
+      // console.log("width", windowWidth);
+    };
+    const subscription = Dimensions.addEventListener("change", onChange);
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
-  // const onLayoutRootView = useCallback(async () => {
-  //   if (fontsLoaded) {
-  //     await SplashScreen.hideAsync();
-  //   }
-  // }, [fontsLoaded]);
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
 
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
+  if (!fontsLoaded) {
+    return null;
+  }
 
   // // const [isReady, setIsReady] = useState(false);
 
@@ -83,24 +83,34 @@ export default function App() {
   //   setState(initState);
   // };
 
-  // const onDismiss = () => {
-  //   setIsShowKeyboard(false);
-  //   setInputFocus(false);
-  //   Keyboard.dismiss();
-  //   // setState(initState);
-  // };
+  const onDismiss = () => {
+    setIsShowKeyboard(false);
+    setInputFocus(false);
+    Keyboard.dismiss();
+  };
 
-  // const onInputFocus = () => {
-  //   setIsShowKeyboard(true);
-  //   styles.shadowProp;
-  // };
+  const onInputFocus = () => {
+    setIsShowKeyboard(true);
+  };
 
   return (
-    <>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       {/* ---------->>>>Registration<<<<------------- */}
-      {/* <Registration /> */}
+      <Registration
+        screenWidth={screenWidth}
+        isShowKeyboard={isShowKeyboard}
+        setIsShowKeyboard={setIsShowKeyboard}
+        onDismiss={onDismiss}
+        onInputFocus={onInputFocus}
+      />
       {/* ---------->>>>Login<<<<------------- */}
-      <LogIn />
-    </>
+      {/* <LogIn
+        screenWidth={screenWidth}
+        isShowKeyboard={isShowKeyboard}
+        setIsShowKeyboard={setIsShowKeyboard}
+        onDismiss={onDismiss}
+        onInputFocus={onInputFocus}
+      /> */}
+    </View>
   );
 }
