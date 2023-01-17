@@ -96,10 +96,11 @@ export default function App() {
   // };
 
   return (
-    // ---------->>>>Registration<<<<-------------
-    <Registration />
-
-    // ---------->>>>Registration<<<<-------------
-    // <LogIn />
+    <>
+      {/* ---------->>>>Registration<<<<------------- */}
+      {/* <Registration /> */}
+      {/* ---------->>>>Login<<<<------------- */}
+      <LogIn />
+    </>
   );
 }

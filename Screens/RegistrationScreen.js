@@ -19,6 +19,7 @@ import * as SplashScreen from "expo-splash-screen";
 // import DropShadow from "react-native-drop-shadow";
 import { styles } from "../Component";
 import Button from "../utils/Button";
+import { registrationInputs } from "./variables";
 
 const background = require("../assets/img/background.jpeg");
 const initState = {
@@ -120,63 +121,38 @@ export default function Registration() {
                 <View style={styles.formHeaderContainer}>
                   <Text style={styles.formHeaderText}>Registration</Text>
                 </View>
-                <TextInput
-                  placeholder="Username"
-                  placeholderTextColor="#BDBDBD"
-                  value={state.name}
-                  onChangeText={
-                    (val) =>
-                      setState((prevState) => ({ ...prevState, name: val }))
-                    // formHandler(val)
-                  }
-                  onFocus={onInputFocus}
-                  // onFocus={() => setIsShowKeyboard(true)}
-                  style={[
-                    styles.input,
-                    {
-                      shadowOffset: {
-                        width: shadowOffsetWidth,
-                        height: shadowOffsetHeight,
-                      },
-                      shadowOpacity,
-                      shadowRadius,
-                    },
-                  ]}
-                  textAlign={"center"}
-                />
-                <TextInput
-                  placeholder="Email"
-                  value={state.email}
-                  // onChangeText={(val) => formHandler(val)}
-                  onChangeText={(val) =>
-                    setState((prevState) => ({ ...prevState, email: val }))
-                  }
-                  onFocus={onInputFocus}
-                  // onFocus={() => setIsShowKeyboard(true)}
-                  style={
-                    inputFocus
-                      ? [styles.input, styles.shadowProp]
-                      : styles.input
-                  }
-                  textAlign={"center"}
-                />
-                <TextInput
-                  placeholder="Password"
-                  value={state.password}
-                  secureTextEntry={true}
-                  // onChangeText={(val) => formHandler(val)}
-                  onChangeText={(val) =>
-                    setState((prevState) => ({ ...prevState, password: val }))
-                  }
-                  onFocus={onInputFocus}
-                  // onFocus={() => setIsShowKeyboard(true)}
-                  style={
-                    inputFocus
-                      ? [styles.input, styles.shadowProp]
-                      : styles.input
-                  }
-                  textAlign={"center"}
-                />
+                {registrationInputs.map(
+                  ({ type, name, placeholderTextColor, placeholder }) => (
+                    <TextInput
+                      key={type}
+                      placeholder={placeholder}
+                      placeholderTextColor={placeholderTextColor}
+                      value={state[name]}
+                      secureTextEntry={type === "password" ? true : false}
+                      onChangeText={
+                        (val) =>
+                          setState((prevState) => ({
+                            ...prevState,
+                            [name]: val,
+                          }))
+                        // formHandler(val)
+                      }
+                      onFocus={onInputFocus}
+                      // onFocus={() => setIsShowKeyboard(true)}
+                      style={[
+                        styles.input,
+                        {
+                          shadowOffset: {
+                            width: shadowOffsetWidth,
+                            height: shadowOffsetHeight,
+                          },
+                          shadowOpacity,
+                          shadowRadius,
+                        },
+                      ]}
+                    />
+                  )
+                )}
               </View>
               <TouchableOpacity
                 activeOpacity={0.8}

@@ -17,11 +17,11 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 // import DropShadow from "react-native-drop-shadow";
 import { styles } from "../Component";
-import Button from "../utils/Button";
+// import Button from "../utils/Button";
+import { registrationInputs } from "./variables";
 
 const background = require("../assets/img/background.jpeg");
 const initState = {
-  name: "",
   email: "",
   password: "",
 };
@@ -69,11 +69,8 @@ export default function LogIn() {
 
   // const [isReady, setIsReady] = useState(false);
 
-  const onRegister = () => {
-    Alert.alert(
-      "Credentials",
-      `${state.name} + ${state.email} + ${state.password}`
-    );
+  const onLogin = () => {
+    Alert.alert("Credentials", `${state.email} + ${state.password}`);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     console.log(state);
@@ -115,7 +112,39 @@ export default function LogIn() {
                 <View style={styles.formHeaderContainer}>
                   <Text style={styles.formHeaderText}>Log in</Text>
                 </View>
-                <TextInput
+                {registrationInputs
+                  .slice(1, 3)
+                  .map(({ type, name, placeholderTextColor, placeholder }) => (
+                    <TextInput
+                      key={type}
+                      placeholder={placeholder}
+                      placeholderTextColor={placeholderTextColor}
+                      value={state[name]}
+                      secureTextEntry={type === "password" ? true : false}
+                      onChangeText={
+                        (val) =>
+                          setState((prevState) => ({
+                            ...prevState,
+                            [name]: val,
+                          }))
+                        // formHandler(val)
+                      }
+                      onFocus={onInputFocus}
+                      // onFocus={() => setIsShowKeyboard(true)}
+                      style={[
+                        styles.input,
+                        {
+                          shadowOffset: {
+                            width: shadowOffsetWidth,
+                            height: shadowOffsetHeight,
+                          },
+                          shadowOpacity,
+                          shadowRadius,
+                        },
+                      ]}
+                    />
+                  ))}
+                {/* <TextInput
                   placeholder="Email"
                   value={state.email}
                   // onChangeText={(val) => formHandler(val)}
@@ -147,12 +176,12 @@ export default function LogIn() {
                       : styles.input
                   }
                   textAlign={"center"}
-                />
+                /> */}
               </View>
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.btn}
-                onPress={onRegister}
+                onPress={onLogin}
               >
                 <Text style={styles.btnText}>Log in</Text>
               </TouchableOpacity>

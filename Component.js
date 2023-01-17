@@ -107,10 +107,4 @@ export const styles = StyleSheet.create({
     lineHeight: 18,
     marginBottom: 45,
   },
-  logInText: {
-    fontFamily: "Roboto-Reg",
-    fontSize: 16,
-    lineHeight: 18,
-    marginBottom: 45,
-  },
 });
