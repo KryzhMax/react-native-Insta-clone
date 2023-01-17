@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import {
-  Dimensions,
   View,
   TextInput,
   KeyboardAvoidingView,
@@ -13,91 +12,33 @@ import {
   ImageBackground,
   //   Pressable,
 } from "react-native";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 // import DropShadow from "react-native-drop-shadow";
 import { styles } from "../Component";
-// import Button from "../utils/Button";
-import { registrationInputs } from "./variables";
+import { background, registrationInputs, loginInitState } from "./variables";
 
-const background = require("../assets/img/background.jpeg");
-const initState = {
-  email: "",
-  password: "",
-};
-
-export default function LogIn() {
+export default function LogIn({
+  screenWidth,
+  isShowKeyboard,
+  setIsShowKeyboard,
+  onDismiss,
+  onInputFocus,
+  //   inputFocus,
+}) {
   const [shadowOffsetWidth, setShadowOffsetWidth] = useState(0);
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(4);
   const [shadowRadius, setShadowRadius] = useState(4);
   const [shadowOpacity, setShadowOpacity] = useState(0.25);
-
-  const [state, setState] = useState(initState);
-  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(
-    Dimensions.get("window").width
-  );
-  const [inputFocus, setInputFocus] = useState(false);
-
-  const [fontsLoaded] = useFonts({
-    "Roboto-Reg": require("../assets/fonts/Roboto/Roboto-Regular.ttf"),
-    "Roboto-Bold": require("../assets/fonts/Roboto/Roboto-Bold.ttf"),
-  });
-
-  useEffect(() => {
-    const onChange = () => {
-      const windowWidth = Dimensions.get("window").width;
-      // const windowHeight = Dimensions.get("window").height;
-      setScreenWidth(windowWidth);
-      // console.log("width", windowWidth);
-    };
-    const subscription = Dimensions.addEventListener("change", onChange);
-    return () => {
-      subscription.remove();
-    };
-  }, []);
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
-  // const [isReady, setIsReady] = useState(false);
+  const [state, setState] = useState(loginInitState);
 
   const onLogin = () => {
     Alert.alert("Credentials", `${state.email} + ${state.password}`);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    console.log(state);
-    setState(initState);
-  };
-
-  const onDismiss = () => {
-    setIsShowKeyboard(false);
-    setInputFocus(false);
-    Keyboard.dismiss();
-    // setState(initState);
-  };
-
-  const onInputFocus = () => {
-    setIsShowKeyboard(true);
-    styles.shadowProp;
+    setState(loginInitState);
   };
 
   return (
-    // <Registration
-    //   dimensions={screenWidth}
-    //   isShowKeyboard={isShowKeyboard}
-    //   setIsShowKeyboard={setIsShowKeyboard}
-    //   onDismiss={onDismiss}
-    // />
-
-    <View style={styles.container} onLayout={onLayoutRootView}>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={onDismiss}>
         <ImageBackground source={background} style={styles.image}>
           <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
@@ -121,16 +62,13 @@ export default function LogIn() {
                       placeholderTextColor={placeholderTextColor}
                       value={state[name]}
                       secureTextEntry={type === "password" ? true : false}
-                      onChangeText={
-                        (val) =>
-                          setState((prevState) => ({
-                            ...prevState,
-                            [name]: val,
-                          }))
-                        // formHandler(val)
+                      onChangeText={(val) =>
+                        setState((prevState) => ({
+                          ...prevState,
+                          [name]: val,
+                        }))
                       }
                       onFocus={onInputFocus}
-                      // onFocus={() => setIsShowKeyboard(true)}
                       style={[
                         styles.input,
                         {
@@ -144,39 +82,6 @@ export default function LogIn() {
                       ]}
                     />
                   ))}
-                {/* <TextInput
-                  placeholder="Email"
-                  value={state.email}
-                  // onChangeText={(val) => formHandler(val)}
-                  onChangeText={(val) =>
-                    setState((prevState) => ({ ...prevState, email: val }))
-                  }
-                  onFocus={onInputFocus}
-                  // onFocus={() => setIsShowKeyboard(true)}
-                  style={
-                    inputFocus
-                      ? [styles.input, styles.shadowProp]
-                      : styles.input
-                  }
-                  textAlign={"center"}
-                />
-                <TextInput
-                  placeholder="Password"
-                  value={state.password}
-                  secureTextEntry={true}
-                  // onChangeText={(val) => formHandler(val)}
-                  onChangeText={(val) =>
-                    setState((prevState) => ({ ...prevState, password: val }))
-                  }
-                  onFocus={onInputFocus}
-                  // onFocus={() => setIsShowKeyboard(true)}
-                  style={
-                    inputFocus
-                      ? [styles.input, styles.shadowProp]
-                      : styles.input
-                  }
-                  textAlign={"center"}
-                /> */}
               </View>
               <TouchableOpacity
                 activeOpacity={0.8}

@@ -31,9 +31,6 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
     fontFamily: "Roboto-Reg",
     fontSize: 14,
-
-    // shadowOffset: "0px, 4px",
-    // shadowColor: "rgba(0, 0, 0, 0.25)",
   },
   shadowProp: {
     shadowColor: "#000",
@@ -56,20 +53,22 @@ export const styles = StyleSheet.create({
   avatarBox: {
     flexDirection: "row",
     alignItems: "flex-end",
-    position: "relative",
+
     marginTop: -60,
     marginBottom: 32,
+    marginHorizontal: "auto",
   },
   avatar: {
+    top: 60,
+    left: 60,
+    transform: [{ translateX: -45 }, { translateY: -45 }],
     width: 120,
     height: 120,
     backgroundColor: "#F6F6F6",
     borderRadius: 16,
   },
   addBtn: {
-    // position: "absolute",
-    // bottom: 0,
-    // right: 0,
+    position: "absolute",
   },
   formHeaderContainer: {
     marginBottom: 32,
@@ -97,7 +96,6 @@ export const styles = StyleSheet.create({
     fontSize: 18,
   },
   box: {
-    // position: "relative",
     marginBottom: 45,
     alignItems: "center",
   },

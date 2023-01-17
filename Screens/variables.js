@@ -1,3 +1,16 @@
+export const background = require("../assets/img/background.jpeg");
+
+export const regInitState = {
+  name: "",
+  email: "",
+  password: "",
+};
+
+export const loginInitState = {
+  email: "",
+  password: "",
+};
+
 export const registrationInputs = [
   {
     type: "name",
