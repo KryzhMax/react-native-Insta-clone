@@ -1,41 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-  Dimensions,
-  View,
-  TextInput,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Platform,
-  Keyboard,
-  TouchableOpacity,
-  Text,
-  Alert,
-  ImageBackground,
-  Image,
-  Pressable,
-} from "react-native";
+import { Dimensions, View, Keyboard } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import DropShadow from "react-native-drop-shadow";
 import Registration from "./Screens/RegistrationScreen";
-import LogIn from "./Screens/LoginScreen";
-import { styles } from "./Component";
-import Button from "./utils/Button";
-
-const background = require("./assets/img/background.jpeg");
-const initState = {
-  name: "",
-  email: "",
-  password: "",
-};
+// import LogIn from "./Screens/LoginScreen";
 
 export default function App() {
-  // const [shadowOffsetWidth, setShadowOffsetWidth] = useState(0);
-  // const [shadowOffsetHeight, setShadowOffsetHeight] = useState(4);
-  // const [shadowRadius, setShadowRadius] = useState(4);
-  // const [shadowOpacity, setShadowOpacity] = useState(0.25);
-
-  // const [state, setState] = useState(initState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [screenWidth, setScreenWidth] = useState(
     Dimensions.get("window").width
@@ -52,7 +22,6 @@ export default function App() {
       const windowWidth = Dimensions.get("window").width;
       // const windowHeight = Dimensions.get("window").height;
       setScreenWidth(windowWidth);
-      // console.log("width", windowWidth);
     };
     const subscription = Dimensions.addEventListener("change", onChange);
     return () => {
@@ -69,19 +38,6 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-
-  // // const [isReady, setIsReady] = useState(false);
-
-  // const onRegister = () => {
-  //   Alert.alert(
-  //     "Credentials",
-  //     `${state.name} + ${state.email} + ${state.password}`
-  //   );
-  //   setIsShowKeyboard(false);
-  //   Keyboard.dismiss();
-  //   console.log(state);
-  //   setState(initState);
-  // };
 
   const onDismiss = () => {
     setIsShowKeyboard(false);
@@ -102,6 +58,7 @@ export default function App() {
         setIsShowKeyboard={setIsShowKeyboard}
         onDismiss={onDismiss}
         onInputFocus={onInputFocus}
+        inputFocus={inputFocus}
       />
       {/* ---------->>>>Login<<<<------------- */}
       {/* <LogIn
@@ -110,6 +67,7 @@ export default function App() {
         setIsShowKeyboard={setIsShowKeyboard}
         onDismiss={onDismiss}
         onInputFocus={onInputFocus}
+        inputFocus={inputFocus}
       /> */}
     </View>
   );

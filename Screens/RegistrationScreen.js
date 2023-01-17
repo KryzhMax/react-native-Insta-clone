@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-  Dimensions,
   View,
   TextInput,
   KeyboardAvoidingView,
@@ -31,9 +30,7 @@ export default function Registration({
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(4);
   const [shadowRadius, setShadowRadius] = useState(4);
   const [shadowOpacity, setShadowOpacity] = useState(0.25);
-
   const [state, setState] = useState(regInitState);
-  // const [isReady, setIsReady] = useState(false);
 
   const onRegister = () => {
     Alert.alert(

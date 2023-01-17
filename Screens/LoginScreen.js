@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-  Dimensions,
   View,
   TextInput,
   KeyboardAvoidingView,
@@ -15,7 +14,6 @@ import {
 } from "react-native";
 // import DropShadow from "react-native-drop-shadow";
 import { styles } from "../Component";
-// import Button from "../utils/Button";
 import { background, registrationInputs, loginInitState } from "./variables";
 
 export default function LogIn({
@@ -30,7 +28,6 @@ export default function LogIn({
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(4);
   const [shadowRadius, setShadowRadius] = useState(4);
   const [shadowOpacity, setShadowOpacity] = useState(0.25);
-  // const [isReady, setIsReady] = useState(false);
   const [state, setState] = useState(loginInitState);
 
   const onLogin = () => {
