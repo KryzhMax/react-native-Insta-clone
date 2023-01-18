@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Dimensions, View, Keyboard } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import Registration from "./Screens/RegistrationScreen";
-// import LogIn from "./Screens/LoginScreen";
+import Registration from "./src/Screens/RegistrationScreen";
+// import LogIn from "./src//Screens/LoginScreen";
 
 export default function App() {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
@@ -13,8 +13,8 @@ export default function App() {
   const [inputFocus, setInputFocus] = useState(false);
 
   const [fontsLoaded] = useFonts({
-    "Roboto-Reg": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
-    "Roboto-Bold": require("./assets/fonts/Roboto/Roboto-Bold.ttf"),
+    "Roboto-Reg": require("./src/assets/fonts/Roboto/Roboto-Regular.ttf"),
+    "Roboto-Bold": require("./src/assets/fonts/Roboto/Roboto-Bold.ttf"),
   });
 
   useEffect(() => {
