@@ -1,74 +1,111 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Dimensions, View, Keyboard } from "react-native";
+import { Dimensions, Keyboard } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import Registration from "./src/Screens/RegistrationScreen";
-// import LogIn from "./src//Screens/LoginScreen";
+import Login from "./src/Screens/LoginScreen";
+import Home from "./src/Screens/Home";
+
+const MainStack = createStackNavigator();
 
 export default function App() {
-  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(
-    Dimensions.get("window").width
-  );
-  const [inputFocus, setInputFocus] = useState(false);
+  // --------------------------------------------------------------ДУБЛИРОВАНИЕ КОДА
+  // const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  // const [screenWidth, setScreenWidth] = useState(
+  //   Dimensions.get("window").width
+  // );
+  // const [inputFocus, setInputFocus] = useState(false);
 
-  const [fontsLoaded] = useFonts({
-    "Roboto-Reg": require("./src/assets/fonts/Roboto/Roboto-Regular.ttf"),
-    "Roboto-Bold": require("./src/assets/fonts/Roboto/Roboto-Bold.ttf"),
-  });
+  // useEffect(() => {
+  //   const onChange = () => {
+  //     const windowWidth = Dimensions.get("window").width;
+  //     // const windowHeight = Dimensions.get("window").height;
+  //     setScreenWidth(windowWidth);
+  //   };
+  //   const subscription = Dimensions.addEventListener("change", onChange);
+  //   return () => {
+  //     subscription.remove();
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    const onChange = () => {
-      const windowWidth = Dimensions.get("window").width;
-      // const windowHeight = Dimensions.get("window").height;
-      setScreenWidth(windowWidth);
-    };
-    const subscription = Dimensions.addEventListener("change", onChange);
-    return () => {
-      subscription.remove();
-    };
-  }, []);
+  // const [fontsLoaded] = useFonts({
+  //   "Roboto-Reg": require("./src/assets/fonts/Roboto/Roboto-Regular.ttf"),
+  //   "Roboto-Bold": require("./src/assets/fonts/Roboto/Roboto-Bold.ttf"),
+  // });
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (fontsLoaded) {
+  //     await SplashScreen.hideAsync();
+  //   }
+  // }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
 
-  const onDismiss = () => {
-    setIsShowKeyboard(false);
-    setInputFocus(false);
-    Keyboard.dismiss();
-  };
+  // const onDismiss = () => {
+  //   setIsShowKeyboard(false);
+  //   setInputFocus(false);
+  //   Keyboard.dismiss();
+  // };
 
-  const onInputFocus = () => {
-    setIsShowKeyboard(true);
-  };
+  // const onInputFocus = () => {
+  //   setIsShowKeyboard(true);
+  // };
+  // ------------------------------------------------ДУБЛИРОВАНИЕ КОДА
+
+  // const props = {
+  //   screenWidth: screenWidth,
+  //   isShowKeyboard: isShowKeyboard,
+  //   keyboard: setIsShowKeyboard,
+  //   dismiss: onDismiss(),
+  //   input: onInputFocus(),
+  //   inputFocusing: inputFocus,
+  //   onLayout: onLayoutRootView(),
+  // };
 
   return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      {/* ---------->>>>Registration<<<<------------- */}
-      <Registration
-        screenWidth={screenWidth}
-        isShowKeyboard={isShowKeyboard}
-        setIsShowKeyboard={setIsShowKeyboard}
-        onDismiss={onDismiss}
-        onInputFocus={onInputFocus}
-        inputFocus={inputFocus}
-      />
-      {/* ---------->>>>Login<<<<------------- */}
-      {/* <LogIn
-        screenWidth={screenWidth}
-        isShowKeyboard={isShowKeyboard}
-        setIsShowKeyboard={setIsShowKeyboard}
-        onDismiss={onDismiss}
-        onInputFocus={onInputFocus}
-        inputFocus={inputFocus}
-      /> */}
-    </View>
+    <NavigationContainer>
+      <MainStack.Navigator initialRouteName="Registration">
+        <MainStack.Screen
+          name="Registration"
+          component={
+            Registration
+            // <Registration
+            //   screenWidth={screenWidth}
+            //   isShowKeyboard={isShowKeyboard}
+            //   setIsShowKeyboard={setIsShowKeyboard}
+            //   onDismiss={onDismiss}
+            //   onInputFocus={onInputFocus}
+            //   inputFocus={inputFocus}
+            //   onLayout={onLayoutRootView}
+            // />
+          }
+          options={{ title: "" }}
+        />
+        {/* <MainStack.Screen
+          name="Login">
+          {(props) => <Login {...props} />}
+        </MainStack.Screen> */}
+        <MainStack.Screen
+          name="Login"
+          component={Login}
+          options={{ title: "" }}
+          // <Login
+          //   screenWidth={screenWidth}
+          //   isShowKeyboard={isShowKeyboard}
+          //   setIsShowKeyboard={setIsShowKeyboard}
+          //   onDismiss={onDismiss}
+          //   onInputFocus={onInputFocus}
+          //   inputFocus={inputFocus}
+          //   onLayout={onLayoutRootView}
+          // />
+          // options={props}
+        />
+        <MainStack.Screen name="Home" component={Home} />
+      </MainStack.Navigator>
+    </NavigationContainer>
   );
 }

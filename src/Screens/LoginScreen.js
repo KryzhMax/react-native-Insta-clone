@@ -1,51 +1,106 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
+  Dimensions,
+  Keyboard,
   View,
   TextInput,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Platform,
-  Keyboard,
   TouchableOpacity,
   Text,
   Alert,
   ImageBackground,
   //   Pressable,
 } from "react-native";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 // import DropShadow from "react-native-drop-shadow";
 import { styles } from "../Component";
 import { background, registrationInputs, loginInitState } from "./variables";
 
-export default function LogIn({
-  screenWidth,
-  isShowKeyboard,
-  setIsShowKeyboard,
-  onDismiss,
-  onInputFocus,
-  //   inputFocus,
-}) {
+export default function Login(/*props*/ { navigation }) {
+  // const {
+  //   screenWidth,
+  //   isShowKeyboard,
+  //   setIsShowKeyboard,
+  //   onDismiss,
+  //   onInputFocus,
+  //   //   inputFocus,
+  //   onLayoutRootView: onLayout,
+  // } = props;
+
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(
+    Dimensions.get("window").width
+  );
+  const [inputFocus, setInputFocus] = useState(false);
+
   const [shadowOffsetWidth, setShadowOffsetWidth] = useState(0);
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(4);
   const [shadowRadius, setShadowRadius] = useState(4);
   const [shadowOpacity, setShadowOpacity] = useState(0.25);
   const [state, setState] = useState(loginInitState);
 
+  useEffect(() => {
+    const onChange = () => {
+      const windowWidth = Dimensions.get("window").width;
+      // const windowHeight = Dimensions.get("window").height;
+      setScreenWidth(windowWidth);
+    };
+    const subscription = Dimensions.addEventListener("change", onChange);
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  const [fontsLoaded] = useFonts({
+    "Roboto-Reg": require("../assets/fonts/Roboto/Roboto-Regular.ttf"),
+    "Roboto-Bold": require("../assets/fonts/Roboto/Roboto-Bold.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  const onDismiss = () => {
+    setIsShowKeyboard(false);
+    setInputFocus(false);
+    Keyboard.dismiss();
+  };
+
+  const onInputFocus = () => {
+    setIsShowKeyboard(true);
+  };
+
   const onLogin = () => {
-    Alert.alert("Credentials", `${state.email} + ${state.password}`);
+    // Alert.alert("Credentials", `${state.email} + ${state.password}`);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setState(loginInitState);
+
+    if (state.email && state.password) {
+      navigation.navigate("Home");
+    } else {
+      Alert.alert("Credentials", "Please fill out all fields!");
+    }
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onLayout={onLayoutRootView}>
       <TouchableWithoutFeedback onPress={onDismiss}>
         <ImageBackground source={background} style={styles.image}>
           <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
             <View
               style={{
                 ...styles.form,
-                marginBottom: isShowKeyboard ? -90 : 0,
+                marginBottom: isShowKeyboard ? -10 : 0,
                 width: screenWidth,
               }}
             >
@@ -91,7 +146,13 @@ export default function LogIn({
                 <Text style={styles.btnText}>Log in</Text>
               </TouchableOpacity>
               <Text style={styles.signInText}>
-                Don't have an account? Sign Up
+                Don't have an account?{" "}
+                <Text
+                  onPress={() => navigation.navigate("Registration")}
+                  style={styles.signInText}
+                >
+                  Sign Up
+                </Text>
               </Text>
             </View>
           </KeyboardAvoidingView>

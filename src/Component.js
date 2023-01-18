@@ -105,4 +105,7 @@ export const styles = StyleSheet.create({
     lineHeight: 18,
     marginBottom: 45,
   },
+  linkText: {
+    display: "inline-block",
+  },
 });

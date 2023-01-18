@@ -14,7 +14,7 @@ const lineProps = {
   strokeLineJoin: "round",
 };
 
-export default function Button({ size /*onPress*/ }) {
+export default function AddButton({ size /*onPress*/ }) {
   return (
     <TouchableHighlight /*onPress={onPress}*/>
       <View style={{ width: size, height: size }}>
