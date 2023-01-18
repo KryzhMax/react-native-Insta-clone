@@ -149,7 +149,7 @@ export default function Login(/*props*/ { navigation }) {
                 Don't have an account?{" "}
                 <Text
                   onPress={() => navigation.navigate("Registration")}
-                  style={styles.signInText}
+                  style={styles.linkText}
                 >
                   Sign Up
                 </Text>

@@ -106,6 +106,6 @@ export const styles = StyleSheet.create({
     marginBottom: 45,
   },
   linkText: {
-    display: "inline-block",
+    color: "tomato",
   },
 });

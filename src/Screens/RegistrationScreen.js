@@ -157,7 +157,7 @@ export default function Registration({ navigation }) {
                 Already have an account?{" "}
                 <Text
                   onPress={() => navigation.navigate("Login")}
-                  style={styles.signInText}
+                  style={styles.linkText}
                 >
                   Sign In
                 </Text>

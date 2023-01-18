@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Dimensions, Keyboard } from "react-native";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
+import React /*{ useState, useEffect, useCallback }*/ from "react";
+// import { /*Dimensions, Keyboard,*/ Button } from "react-native";
+// import { useFonts } from "expo-font";
+// import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Feather } from "@expo/vector-icons";
 import Registration from "./src/Screens/RegistrationScreen";
 import Login from "./src/Screens/LoginScreen";
 import Home from "./src/Screens/Home";
@@ -104,7 +105,30 @@ export default function App() {
           // />
           // options={props}
         />
-        <MainStack.Screen name="Home" component={Home} />
+        <MainStack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            title: "Home screen",
+            headerStyle: {
+              // backgroundColor: "#f4511e",
+              backgroundColor: "#fff",
+            },
+            headerTintColor: "#fff",
+            // headerTitleStyle: {
+            //   fontWeight: "bold",
+            //   fontSize: 20,
+            // },
+            headerRight: () => (
+              <Feather
+                onPress={() => alert("Imagine you've logged out!")}
+                name="log-out"
+                size={24}
+                color="#BDBDBD"
+              />
+            ),
+          }}
+        />
       </MainStack.Navigator>
     </NavigationContainer>
   );
