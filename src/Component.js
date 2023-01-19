@@ -108,4 +108,14 @@ export const styles = StyleSheet.create({
   linkText: {
     color: "tomato",
   },
+  icons: {
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "#FF6C00",
+    height: 40,
+    width: 70,
+    // paddingHorizontal: 5,
+    paddingVertical: 5,
+    borderRadius: 10,
+  },
 });

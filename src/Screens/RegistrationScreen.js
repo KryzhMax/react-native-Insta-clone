@@ -55,21 +55,6 @@ export default function Registration({ navigation }) {
     };
   }, []);
 
-  const [fontsLoaded] = useFonts({
-    "Roboto-Reg": require("../assets/fonts/Roboto/Roboto-Regular.ttf"),
-    "Roboto-Bold": require("../assets/fonts/Roboto/Roboto-Bold.ttf"),
-  });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   const onDismiss = () => {
     setIsShowKeyboard(false);
     setInputFocus(false);
@@ -97,7 +82,7 @@ export default function Registration({ navigation }) {
   };
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={onDismiss}>
         <ImageBackground source={background} style={styles.image}>
           <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>

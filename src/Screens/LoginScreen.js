@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dimensions,
   Keyboard,
@@ -13,23 +13,11 @@ import {
   ImageBackground,
   //   Pressable,
 } from "react-native";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 // import DropShadow from "react-native-drop-shadow";
-import { styles } from "../Component";
 import { background, registrationInputs, loginInitState } from "./variables";
+import { styles } from "../Component";
 
-export default function Login(/*props*/ { navigation }) {
-  // const {
-  //   screenWidth,
-  //   isShowKeyboard,
-  //   setIsShowKeyboard,
-  //   onDismiss,
-  //   onInputFocus,
-  //   //   inputFocus,
-  //   onLayoutRootView: onLayout,
-  // } = props;
-
+export default function Login({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [screenWidth, setScreenWidth] = useState(
     Dimensions.get("window").width
@@ -53,21 +41,6 @@ export default function Login(/*props*/ { navigation }) {
       subscription.remove();
     };
   }, []);
-
-  const [fontsLoaded] = useFonts({
-    "Roboto-Reg": require("../assets/fonts/Roboto/Roboto-Regular.ttf"),
-    "Roboto-Bold": require("../assets/fonts/Roboto/Roboto-Bold.ttf"),
-  });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   const onDismiss = () => {
     setIsShowKeyboard(false);
@@ -93,7 +66,7 @@ export default function Login(/*props*/ { navigation }) {
   };
 
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={onDismiss}>
         <ImageBackground source={background} style={styles.image}>
           <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
