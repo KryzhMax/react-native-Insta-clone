@@ -5,11 +5,14 @@ import CreatePostsScreen from "./CreatePostsScreen";
 import PostsScreen from "./PostsScreen";
 import ProfileScreen from "./ProfileScreen";
 import CustomTabBar from "../common/CustomTabBar";
-import { styles } from "../Component";
 
 const Tabs = createBottomTabNavigator();
 
-export default function Home({ navigation }) {
+export default function Home(
+  {
+    /*navigation*/
+  }
+) {
   return (
     <Tabs.Navigator
       tabBar={(props) => <CustomTabBar {...props} />}
@@ -24,11 +27,13 @@ export default function Home({ navigation }) {
         name="PostsScreen"
         component={PostsScreen}
         options={{
-          title: "",
+          title: "Posts",
           iconName: "grid",
           headerStyle: {
             // backgroundColor: "#f4511e",
             backgroundColor: "#fff",
+            borderBottomWidth: 1,
+            borderBottomColor: "#e5e5e5",
           },
           headerTintColor: "#fff",
           headerTitleStyle: {
@@ -49,12 +54,12 @@ export default function Home({ navigation }) {
       <Tabs.Screen
         name="CreatePostsScreen"
         component={CreatePostsScreen}
-        options={{ title: "", iconName: "plus" }}
+        options={{ title: "Create post", iconName: "plus" }}
       />
       <Tabs.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={{ title: "", iconName: "user" }}
+        options={{ title: "Profile", iconName: "user" }}
       />
     </Tabs.Navigator>
   );

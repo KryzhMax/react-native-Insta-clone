@@ -44,7 +44,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={styles.container}
+            style={styles.tabBar}
           >
             <View
               style={{
@@ -56,7 +56,6 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
                 style={{ color: isFocused ? "white" : "grey" }}
                 name={options.iconName}
                 size={24}
-                // color={options.color}
               />
               {/* <Text style={{ color: isFocused ? "#673ab7" : "#222" }}>
               {label}

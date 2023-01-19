@@ -116,6 +116,14 @@ export const styles = StyleSheet.create({
     width: 70,
     // paddingHorizontal: 5,
     paddingVertical: 5,
-    borderRadius: 10,
+    borderRadius: 40,
+  },
+  tabBar: {
+    flex: 1,
+    alignItems: "center",
+    paddingBottom: 34,
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#e5e5e5",
   },
 });
