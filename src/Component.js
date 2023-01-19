@@ -105,4 +105,25 @@ export const styles = StyleSheet.create({
     lineHeight: 18,
     marginBottom: 45,
   },
+  linkText: {
+    color: "tomato",
+  },
+  icons: {
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "#FF6C00",
+    height: 40,
+    width: 70,
+    // paddingHorizontal: 5,
+    paddingVertical: 5,
+    borderRadius: 40,
+  },
+  tabBar: {
+    flex: 1,
+    alignItems: "center",
+    paddingBottom: 34,
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#e5e5e5",
+  },
 });
