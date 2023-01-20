@@ -30,7 +30,6 @@ export default function useRoute(isAuth) {
             name="Home"
             component={Home}
             options={{
-              title: "Posts",
               headerShown: false,
             }}
           />

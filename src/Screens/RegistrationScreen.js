@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dimensions,
   View,
@@ -12,26 +12,14 @@ import {
   Alert,
   ImageBackground,
   Image,
-  // Button,
   //   Pressable,
 } from "react-native";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 // import DropShadow from "react-native-drop-shadow";
 import { styles } from "../Component";
 import AddButton from "../utils/Button";
 import { background, registrationInputs, regInitState } from "./variables";
 
 export default function Registration({ navigation }) {
-  // {
-  // screenWidth,
-  // isShowKeyboard,
-  // setIsShowKeyboard,
-  // onDismiss,
-  // onInputFocus,
-  // //   inputFocus,
-  // onLayoutRootView: onLayout,
-  // }
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [screenWidth, setScreenWidth] = useState(
     Dimensions.get("window").width

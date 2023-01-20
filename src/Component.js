@@ -111,19 +111,36 @@ export const styles = StyleSheet.create({
   icons: {
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "#FF6C00",
     height: 40,
     width: 70,
-    // paddingHorizontal: 5,
     paddingVertical: 5,
     borderRadius: 40,
   },
   tabBar: {
     flex: 1,
     alignItems: "center",
+    paddingTop: 9,
     paddingBottom: 34,
     backgroundColor: "#fff",
     borderTopWidth: 1,
     borderTopColor: "#e5e5e5",
   },
+  logout: {
+    marginRight: 10,
+  },
+  headerStyle: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
+  },
+  headerTitleStyle: {
+    fontFamily: "Roboto-Reg",
+    alignItems: Platform.OS === "android" && "center",
+    color: "#e5e5e5",
+    fontSize: 17,
+    lineHeight: 22,
+  },
 });
+
+// 1. Добавить логику на валидацию, разобраться с бокс шедоу, написать логику на показ пароля, выровнять хедер на андроиде + тени на андроиде в таббаре
+// 2. Написать логику на проверку пароля/имейла по базе

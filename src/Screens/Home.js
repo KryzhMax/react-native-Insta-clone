@@ -2,9 +2,12 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import CreatePostsScreen from "./CreatePostsScreen";
-import PostsScreen from "./PostsScreen";
 import ProfileScreen from "./ProfileScreen";
 import CustomTabBar from "../common/CustomTabBar";
+import NestedScreen from "./NestedScreen";
+import { styles } from "../Component";
+import PostsScreen from "./PostsScreen";
+import MapScreen from "./MapScreen";
 
 const Tabs = createBottomTabNavigator();
 
@@ -17,36 +20,34 @@ export default function Home(
     <Tabs.Navigator
       tabBar={(props) => <CustomTabBar {...props} />}
       initialRouteName="ProfileScreen"
-      //   ---------------tabBarOptions deprecated------find analogue---------
-      tabBarOptions={{
-        activeTintColor: "white",
-        inactiveTintColor: "gray",
+      screenOptions={{
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "gray",
+        tabBarStyle: [
+          {
+            display: "flex",
+          },
+          null,
+        ],
       }}
     >
       <Tabs.Screen
-        name="PostsScreen"
-        component={PostsScreen}
+        name="NestedScreen"
+        // component={PostsScreen}
+        component={MapScreen}
         options={{
+          //   headerTitleAlign: "center",
           title: "Posts",
           iconName: "grid",
-          headerStyle: {
-            // backgroundColor: "#f4511e",
-            backgroundColor: "#fff",
-            borderBottomWidth: 1,
-            borderBottomColor: "#e5e5e5",
-          },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontFamily: "Roboto-Reg",
-            lineHeight: 22,
-            fontSize: 20,
-          },
+          headerStyle: { ...styles.headerStyle },
+
           headerRight: () => (
             <Feather
               onPress={() => alert("Imagine you've logged out!")}
               name="log-out"
               size={24}
               color="#BDBDBD"
+              style={styles.logout}
             />
           ),
         }}
@@ -54,12 +55,20 @@ export default function Home(
       <Tabs.Screen
         name="CreatePostsScreen"
         component={CreatePostsScreen}
-        options={{ title: "Create post", iconName: "plus" }}
+        options={{
+          title: "Create post",
+          iconName: "plus",
+          headerStyle: { ...styles.headerStyle },
+        }}
       />
       <Tabs.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={{ title: "Profile", iconName: "user" }}
+        options={{
+          title: "Profile",
+          iconName: "user",
+          headerStyle: { ...styles.headerStyle },
+        }}
       />
     </Tabs.Navigator>
   );
