@@ -140,6 +140,78 @@ export const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 22,
   },
+  cameraContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  camera: {
+    marginHorizontal: 16,
+    marginTop: 32,
+    borderRadius: 8,
+    height: 240,
+    // flex: 1,
+  },
+  photoView: {
+    flex: 1,
+    backgroundColor: "transparent",
+    // justifyContent: "flex-end",
+    justifyContent: "center",
+  },
+  flipContainer: {
+    // position: "absolute",
+    // bottom: 10,
+    // right: 10,
+    marginRight: 10,
+    flex: 0.2,
+    alignSelf: "flex-end",
+  },
+  flipText: {
+    // fontSize: 18,
+    // padding: 30,
+    color: "rgba(255, 255, 255, 0.3)",
+  },
+  cameraButton: {
+    alignSelf: "center",
+    marginBottom: 10,
+  },
+  takePhotoOut: {
+    borderWidth: 2,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+    height: 60,
+    width: 60,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+  },
+  takePhotoInner: {
+    borderWidth: 2,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+    height: 40,
+    width: 40,
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    borderRadius: 50,
+  },
+  photoPreviewContainer: {
+    position: "absolute",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+    borderRadius: 8,
+    top: 20,
+    left: 20,
+    // width: "100%",
+    // height: "100%",
+    width: "40%",
+    height: "40%",
+  },
+  preview: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 8,
+  },
+  sendBtn: {
+    color: "#bdbdbd",
+  },
 });
 
 // 1. Добавить логику на валидацию, разобраться с бокс шедоу, написать логику на показ пароля, выровнять хедер на андроиде + тени на андроиде в таббаре

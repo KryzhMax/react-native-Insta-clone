@@ -53,6 +53,7 @@ const Home = () => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
+      console.log("status", status);
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
         return;
@@ -60,6 +61,7 @@ const Home = () => {
 
       // let location = await Location.getCurrentPositionAsync({});
       let location = await Location.getLastKnownPositionAsync({});
+      console.log("location", location);
       setLocation(location);
     })();
   }, []);
@@ -86,7 +88,14 @@ const Home = () => {
         showsUserLocation={true}
       >
         {location && (
-          <Marker title="I am here" coordinate={location} description="Hello" />
+          <Marker
+            title="I am here"
+            coordinate={{
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            }}
+            description="Hello"
+          />
         )}
       </MapView>
     </View>
