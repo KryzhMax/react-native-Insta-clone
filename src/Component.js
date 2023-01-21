@@ -154,7 +154,6 @@ export const styles = StyleSheet.create({
   photoView: {
     flex: 1,
     backgroundColor: "transparent",
-    // justifyContent: "flex-end",
     justifyContent: "center",
   },
   flipContainer: {
@@ -209,10 +208,19 @@ export const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 8,
   },
-  sendBtn: {
+  reBtn: {
     color: "#bdbdbd",
+  },
+  createPostInput: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#bdbdbd",
+    gap: 16,
+    marginHorizontal: 16,
+  },
+  createPostInputContainer: {
+    marginBottom: 32,
   },
 });
 
-// 1. Добавить логику на валидацию, разобраться с бокс шедоу, написать логику на показ пароля, выровнять хедер на андроиде + тени на андроиде в таббаре
-// 2. Написать логику на проверку пароля/имейла по базе
+// 1. Добавить логику на валидацию, разобраться с бокс шедоу, написать логику на показ пароля, выровнять хедер по центру на андроиде + тени на андроиде в таббаре
+// 2. Написать логику на проверку пароля/имейла по базе данных
