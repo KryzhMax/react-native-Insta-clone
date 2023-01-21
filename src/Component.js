@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, Dimensions } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
@@ -82,8 +82,8 @@ export const styles = StyleSheet.create({
   btn: {
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
-    // marginHorizontal: 20,
+    // width: "100%",
+    marginHorizontal: 16,
     paddingHorizontal: 32,
     paddingVertical: 16,
     backgroundColor: "#FF6C00",
@@ -208,17 +208,34 @@ export const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 8,
   },
+  reBtnContainer: {
+    marginTop: 8,
+    marginLeft: 16,
+    marginBottom: 32,
+  },
   reBtn: {
+    fontFamily: "Roboto-Reg",
+    fontSize: 16,
+    lineHeight: 19,
     color: "#bdbdbd",
   },
   createPostInput: {
+    fontFamily: "Roboto-Reg",
+    fontSize: 16,
+    lineHeight: 19,
     borderBottomWidth: 1,
     borderBottomColor: "#bdbdbd",
-    gap: 16,
+    paddingVertical: 15,
+    marginBottom: 16,
     marginHorizontal: 16,
   },
   createPostInputContainer: {
-    marginBottom: 32,
+    marginBottom: 16,
+  },
+  mapStyle: {
+    // flex: 1,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
 });
 

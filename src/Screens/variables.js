@@ -12,8 +12,8 @@ export const loginInitState = {
 };
 
 export const createPostInitState = {
-  location: "",
   name: "",
+  location: "",
 };
 
 export const createPostInputs = [
@@ -21,24 +21,11 @@ export const createPostInputs = [
     name: "name",
     placeholder: "Name your photo",
     placeholderTextColor: "#BDBDBD",
-    // onChangeText: (onChangeText = (value, { setState, name }) => {
-    //   setState((prevState) => ({
-    //       ...prevState,
-    //       [name]: value,
-    //     })
-    //   );
-    // }),
   },
   {
     name: "location",
     placeholder: "Location...",
     placeholderTextColor: "#BDBDBD",
-    // onChangeText: (onChangeText = (val, setState, state) => {
-    //   setState((prevState) => ({
-    //     ...prevState,
-    //     [state]: val,
-    //   }));
-    // }),
   },
 ];
 

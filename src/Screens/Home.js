@@ -34,7 +34,7 @@ export default function Home(
       <Tabs.Screen
         name="NestedScreen"
         // component={PostsScreen}
-        component={MapScreen}
+        component={NestedScreen}
         options={{
           //   headerTitleAlign: "center",
           title: "Posts",

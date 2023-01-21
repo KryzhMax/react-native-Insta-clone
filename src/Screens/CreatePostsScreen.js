@@ -10,9 +10,11 @@ import {
   TextInput,
   Dimensions,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
+import * as Location from "expo-location";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createPostInitState, createPostInputs } from "./variables";
@@ -23,7 +25,7 @@ export default function CreatePostsScreen({ navigation }) {
   const [camera, setCamera] = useState(null);
   const [type, setType] = useState(CameraType.back);
   const [hasPermission, setHasPermission] = useState(null);
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState(null);
   const [state, setState] = useState(createPostInitState);
   const [screenWidth, setScreenWidth] = useState(
     Dimensions.get("window").width
@@ -53,21 +55,29 @@ export default function CreatePostsScreen({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
+  const onDismiss = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+  };
+
   const takePicture = async () => {
     if (camera) {
       const { uri } = await camera.takePictureAsync();
       setPhoto(uri);
-      //   await MediaLibrary.createAssetAsync(uri);
+      let location = await Location.getCurrentPositionAsync({});
+
+      //   setTimeout(() => {
+      //     const asset = MediaLibrary.createAssetAsync(uri);
+      //   }, 2000);
     }
   };
 
   const onPost = () => {
-    setIsShowKeyboard(false);
-    Keyboard.dismiss();
-    setState(createPostInitState);
-
-    if (state.name && state.location) {
-      navigation.navigate("Posts");
+    if (state.name && state.location && photo) {
+      navigation.navigate("NestedScreen", {
+        screen: "PostsScreen",
+        params: { photo, state },
+      });
     } else {
       Alert.alert("Credentials", "Please fill out all fields to make a post!");
     }
@@ -78,13 +88,7 @@ export default function CreatePostsScreen({ navigation }) {
   };
 
   return (
-    <View
-      style={{
-        ...styles.cameraContainer,
-        marginBottom: isShowKeyboard ? -10 : 0,
-        width: screenWidth,
-      }}
-    >
+    <View style={styles.cameraContainer}>
       <TouchableWithoutFeedback onPress={onDismiss}>
         <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
           <Camera
@@ -136,9 +140,10 @@ export default function CreatePostsScreen({ navigation }) {
             </TouchableOpacity>
           </Camera>
           <TouchableOpacity
-            style={{ marginTop: 8, marginLeft: 16 }}
+            style={styles.reBtnContainer}
             onPress={() => {
               setPhoto("");
+              //   MediaLibrary.deleteAlbumsAsync(albums, assetRemove);
             }}
           >
             <Text style={styles.reBtn}>Make another photo</Text>
@@ -161,17 +166,17 @@ export default function CreatePostsScreen({ navigation }) {
                 />
               )
             )}
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={{ ...styles.btn, marginTop: 16 }}
+              onPress={onPost}
+              //   disabled={!state.name && !state.location && true}
+              //   --------Try this ---------
+              disabled={!state && true}
+            >
+              <Text style={styles.btnText}>Publish</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.btn}
-            onPress={onPost}
-            disabled={!state.name && !state.location && true}
-            //   --------Try this ---------
-            // disabled={!state && true}
-          >
-            <Text style={styles.btnText}>Publish</Text>
-          </TouchableOpacity>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     </View>
