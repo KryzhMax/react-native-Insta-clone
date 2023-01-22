@@ -237,6 +237,12 @@ export const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
+  counter: {
+    fontSize: 16,
+    lineHeight: 19,
+    fontFamily: "Roboto-Reg",
+    color: "#bdbdbd",
+  },
 });
 
 // 1. Добавить логику на валидацию, разобраться с бокс шедоу, написать логику на показ пароля, выровнять хедер по центру на андроиде + тени на андроиде в таббаре

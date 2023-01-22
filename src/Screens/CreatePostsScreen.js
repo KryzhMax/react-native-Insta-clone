@@ -27,25 +27,37 @@ export default function CreatePostsScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [state, setState] = useState(createPostInitState);
-  const [screenWidth, setScreenWidth] = useState(
-    Dimensions.get("window").width
-  );
+  const [location, setLocation] = useState({});
+
+  //   const [screenWidth, setScreenWidth] = useState(
+  //     Dimensions.get("window").width
+  //   );
 
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");
+
+      let location = await Location.getCurrentPositionAsync({});
+
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+
+      setLocation(coords);
     })();
+
     //   ------------------ НЕ УВЕРЕН, что это надо -----------
-    const onChange = () => {
-      const windowWidth = Dimensions.get("window").width;
-      // const windowHeight = Dimensions.get("window").height;
-      setScreenWidth(windowWidth);
-    };
-    const subscription = Dimensions.addEventListener("change", onChange);
-    return () => {
-      subscription.remove();
-    };
+    // const onChange = () => {
+    //   const windowWidth = Dimensions.get("window").width;
+    //   // const windowHeight = Dimensions.get("window").height;
+    //   setScreenWidth(windowWidth);
+    // };
+    // const subscription = Dimensions.addEventListener("change", onChange);
+    // return () => {
+    //   subscription.remove();
+    // };
   }, []);
 
   if (hasPermission === null) {
@@ -60,11 +72,28 @@ export default function CreatePostsScreen({ navigation }) {
     Keyboard.dismiss();
   };
 
+  const onChangeText = (val, input) =>
+    setState((prevState) => ({
+      ...prevState,
+      [input]: val,
+    }));
+
+  const getLocation = async () => {
+    const picturePlace = await Location.reverseGeocodeAsync(location);
+    const placePosition = {
+      ...location,
+      place: `${picturePlace[0].region}, ${picturePlace[0].country}`,
+    };
+
+    onChangeText(placePosition, "location");
+  };
+
   const takePicture = async () => {
     if (camera) {
       const { uri } = await camera.takePictureAsync();
       setPhoto(uri);
-      let location = await Location.getCurrentPositionAsync({});
+
+      getLocation();
 
       //   setTimeout(() => {
       //     const asset = MediaLibrary.createAssetAsync(uri);
@@ -73,6 +102,7 @@ export default function CreatePostsScreen({ navigation }) {
   };
 
   const onPost = () => {
+    // console.log("state", state);
     if (state.name && state.location && photo) {
       navigation.navigate("NestedScreen", {
         screen: "PostsScreen",
@@ -143,6 +173,7 @@ export default function CreatePostsScreen({ navigation }) {
             style={styles.reBtnContainer}
             onPress={() => {
               setPhoto("");
+              onChangeText("", "location");
               //   MediaLibrary.deleteAlbumsAsync(albums, assetRemove);
             }}
           >
@@ -156,13 +187,8 @@ export default function CreatePostsScreen({ navigation }) {
                   key={name}
                   placeholder={placeholder}
                   placeholderTextColor={placeholderTextColor}
-                  value={state[name]}
-                  onChangeText={(val) =>
-                    setState((prevState) => ({
-                      ...prevState,
-                      [name]: val,
-                    }))
-                  }
+                  value={state[name]?.place}
+                  onChangeText={(val) => onChangeText(val, [name])}
                 />
               )
             )}

@@ -1,36 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import * as Location from "expo-location";
 import { styles } from "../Component";
 
-const MapScreen = () => {
+const MapScreen = ({ route }) => {
   const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      // let location = await Location.getLastKnownPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
-
-  // ------------------------отправлять на сервер локацию через JSON.stringify(location)
-
-  let text = "Waiting...";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    //   text = JSON.stringify(location);
-    text = location;
-  }
+    if (route.params) {
+      setLocation(route.params);
+    }
+  }, [route.params]);
 
   return (
     <View style={styles.container}>
@@ -47,8 +27,8 @@ const MapScreen = () => {
           <Marker
             title="I am here"
             coordinate={{
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
+              latitude: location.latitude,
+              longitude: location.longitude,
             }}
             description="Hello"
           />
