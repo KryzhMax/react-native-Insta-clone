@@ -4,39 +4,32 @@ import { Feather } from "@expo/vector-icons";
 import CommentsScreen from "./CommentsScreen";
 import MapScreen from "./MapScreen";
 import PostsScreen from "./PostsScreen";
+import { styles } from "../Component";
 
-const Stack = createStackNavigator();
+const Nested = createStackNavigator();
 
 export default function NestedScreen({ navigation }) {
   return (
-    <Stack.Navigator initialRouteName="PostsScreen">
-      <Stack.Screen
+    <Nested.Navigator initialRouteName="PostsScreen">
+      <Nested.Screen
         name="PostsScreen"
         component={PostsScreen}
         options={{
           headerShown: false,
         }}
       />
-      <Stack.Screen
+      <Nested.Screen
         name="CommentsScreen"
         component={CommentsScreen}
         options={{
           title: "Comments",
-          headerStyle: {
-            borderBottomWidth: 0.5,
-            borderBottomColor: "rgba(0, 0, 0, 0.3)",
-          },
+          headerStyle: { ...styles.headerStyle },
           headerTitleAlign: "center",
-          headerTitleStyle: {
-            fontFamily: "Roboto-Reg",
-            color: "#212121",
-            fontSize: 17,
-            lineHeight: 22,
-          },
+          headerTitleStyle: { ...styles.headerTitleStyle },
           headerLeft: () => (
             <Feather
               name="arrow-left"
-              color="#rgba(33, 33, 33, 0.8)"
+              color="#BDBDBD"
               size={24}
               style={{ marginLeft: 16 }}
               onPress={() => {
@@ -46,26 +39,18 @@ export default function NestedScreen({ navigation }) {
           ),
         }}
       />
-      <Stack.Screen
+      <Nested.Screen
         name="MapScreen"
         component={MapScreen}
         options={{
           title: "Map",
-          headerStyle: {
-            borderBottomWidth: 0.5,
-            borderBottomColor: "rgba(0, 0, 0, 0.3)",
-          },
+          headerStyle: { ...styles.headerStyle },
           headerTitleAlign: "center",
-          headerTitleStyle: {
-            fontFamily: "Roboto-Reg",
-            color: "#212121",
-            fontSize: 17,
-            lineHeight: 22,
-          },
+          headerTitleStyle: { ...styles.headerTitleStyle },
           headerLeft: () => (
             <Feather
               name="arrow-left"
-              color="#rgba(33, 33, 33, 0.8)"
+              color="#BDBDBD"
               size={24}
               style={{ marginLeft: 16 }}
               onPress={() => {
@@ -75,6 +60,6 @@ export default function NestedScreen({ navigation }) {
           ),
         }}
       />
-    </Stack.Navigator>
+    </Nested.Navigator>
   );
 }

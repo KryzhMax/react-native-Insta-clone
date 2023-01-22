@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, Dimensions } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
@@ -82,8 +82,8 @@ export const styles = StyleSheet.create({
   btn: {
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
-    // marginHorizontal: 20,
+    // width: "100%",
+    marginHorizontal: 16,
     paddingHorizontal: 32,
     paddingVertical: 16,
     backgroundColor: "#FF6C00",
@@ -111,19 +111,139 @@ export const styles = StyleSheet.create({
   icons: {
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "#FF6C00",
     height: 40,
     width: 70,
-    // paddingHorizontal: 5,
     paddingVertical: 5,
     borderRadius: 40,
   },
   tabBar: {
     flex: 1,
     alignItems: "center",
+    paddingTop: 9,
     paddingBottom: 34,
     backgroundColor: "#fff",
     borderTopWidth: 1,
     borderTopColor: "#e5e5e5",
   },
+  logout: {
+    marginRight: 10,
+  },
+  headerStyle: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e5e5",
+  },
+  headerTitleStyle: {
+    fontFamily: "Roboto-Reg",
+    alignItems: Platform.OS === "android" && "center",
+    color: "#e5e5e5",
+    fontSize: 17,
+    lineHeight: 22,
+  },
+  cameraContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  camera: {
+    marginHorizontal: 16,
+    marginTop: 32,
+    borderRadius: 8,
+    height: 240,
+    // flex: 1,
+  },
+  photoView: {
+    flex: 1,
+    backgroundColor: "transparent",
+    justifyContent: "center",
+  },
+  flipContainer: {
+    // position: "absolute",
+    // bottom: 10,
+    // right: 10,
+    marginRight: 10,
+    flex: 0.2,
+    alignSelf: "flex-end",
+  },
+  flipText: {
+    // fontSize: 18,
+    // padding: 30,
+    color: "rgba(255, 255, 255, 0.3)",
+  },
+  cameraButton: {
+    alignSelf: "center",
+    marginBottom: 10,
+  },
+  takePhotoOut: {
+    borderWidth: 2,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+    height: 60,
+    width: 60,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+  },
+  takePhotoInner: {
+    borderWidth: 2,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+    height: 40,
+    width: 40,
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    borderRadius: 50,
+  },
+  photoPreviewContainer: {
+    position: "absolute",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+    borderRadius: 8,
+    top: 20,
+    left: 20,
+    // width: "100%",
+    // height: "100%",
+    width: "40%",
+    height: "40%",
+  },
+  preview: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 8,
+  },
+  reBtnContainer: {
+    marginTop: 8,
+    marginLeft: 16,
+    marginBottom: 32,
+  },
+  reBtn: {
+    fontFamily: "Roboto-Reg",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#bdbdbd",
+  },
+  createPostInput: {
+    fontFamily: "Roboto-Reg",
+    fontSize: 16,
+    lineHeight: 19,
+    borderBottomWidth: 1,
+    borderBottomColor: "#bdbdbd",
+    paddingVertical: 15,
+    marginBottom: 16,
+    marginHorizontal: 16,
+  },
+  createPostInputContainer: {
+    marginBottom: 16,
+  },
+  mapStyle: {
+    // flex: 1,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
+  counter: {
+    fontSize: 16,
+    lineHeight: 19,
+    fontFamily: "Roboto-Reg",
+    color: "#bdbdbd",
+  },
 });
+
+// 1. Добавить логику на валидацию, разобраться с бокс шедоу, написать логику на показ пароля, выровнять хедер по центру на андроиде + тени на андроиде в таббаре
+// 2. Написать логику на проверку пароля/имейла по базе данных

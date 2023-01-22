@@ -11,6 +11,24 @@ export const loginInitState = {
   password: "",
 };
 
+export const createPostInitState = {
+  name: "",
+  location: "",
+};
+
+export const createPostInputs = [
+  {
+    name: "name",
+    placeholder: "Name your photo",
+    placeholderTextColor: "#BDBDBD",
+  },
+  {
+    name: "location",
+    placeholder: "Location...",
+    placeholderTextColor: "#BDBDBD",
+  },
+];
+
 export const registrationInputs = [
   {
     type: "name",

@@ -50,6 +50,17 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
               style={{
                 ...styles.icons,
                 backgroundColor: isFocused ? "tomato" : "white",
+                shadowOffset: isFocused
+                  ? {
+                      width: 2,
+                      height: 4,
+                    }
+                  : {
+                      width: 0,
+                      height: 0,
+                    },
+                shadowOpacity: isFocused ? 0.25 : 0,
+                shadowRadius: isFocused ? 4 : 0,
               }}
             >
               <Feather
