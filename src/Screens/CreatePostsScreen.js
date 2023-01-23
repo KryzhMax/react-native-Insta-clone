@@ -102,7 +102,6 @@ export default function CreatePostsScreen({ navigation }) {
   };
 
   const onPost = () => {
-    // console.log("state", state);
     if (state.name && state.location && photo) {
       navigation.navigate("NestedScreen", {
         screen: "PostsScreen",

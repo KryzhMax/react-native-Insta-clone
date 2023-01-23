@@ -233,7 +233,6 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   mapStyle: {
-    // flex: 1,
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
@@ -242,6 +241,51 @@ export const styles = StyleSheet.create({
     lineHeight: 19,
     fontFamily: "Roboto-Reg",
     color: "#bdbdbd",
+  },
+  avatarBox: {
+    marginTop: 32,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginHorizontal: 16,
+    alignItems: "center",
+  },
+  avatar: {
+    borderRadius: 16,
+    width: 60,
+    height: 60,
+  },
+  avatarPrimaryText: {
+    color: "#212121",
+    fontFamily: "Roboto-Bold",
+    fontSize: 13,
+    lineHeight: 15,
+  },
+  avatarSecondaryText: {
+    color: "#212121",
+    opacity: 0.8,
+    fontFamily: "Roboto-Reg",
+    fontSize: 11,
+    lineHeight: 13,
+  },
+  postsList: {
+    flex: 1,
+    marginTop: 32,
+  },
+  postItemContainer: {
+    marginBottom: 32,
+    marginHorizontal: 16,
+  },
+  postImg: {
+    width: 343,
+    height: 240,
+    marginBottom: 8,
+    borderRadius: 8,
+  },
+  postTitle: {
+    marginBottom: 8,
+    fontFamily: "Roboto-Bold",
+    fontSize: 16,
+    LineHeight: 19,
   },
 });
 
