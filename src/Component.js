@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 16,
     paddingHorizontal: 32,
     paddingVertical: 16,
-    backgroundColor: "#FF6C00",
+    // backgroundColor: "#FF6C00",
     borderRadius: 100,
     marginBottom: 16,
   },
@@ -134,9 +134,9 @@ export const styles = StyleSheet.create({
     borderBottomColor: "#e5e5e5",
   },
   headerTitleStyle: {
-    fontFamily: "Roboto-Reg",
-    alignItems: Platform.OS === "android" && "center",
-    color: "#e5e5e5",
+    fontFamily: "Roboto-Bold",
+    textAlign: Platform.OS === "android" && "center",
+    color: "#212121",
     fontSize: 17,
     lineHeight: 22,
   },
@@ -233,7 +233,6 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   mapStyle: {
-    // flex: 1,
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
@@ -243,7 +242,90 @@ export const styles = StyleSheet.create({
     fontFamily: "Roboto-Reg",
     color: "#bdbdbd",
   },
+  postLocation: {
+    fontFamily: "Roboto-Reg",
+    textDecorationLine: "underline",
+    fontSize: 16,
+    lineHeight: 19,
+  },
+  avatarBox: {
+    marginTop: 32,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginHorizontal: 16,
+    alignItems: "center",
+  },
+  avatar: {
+    borderRadius: 16,
+    width: 60,
+    height: 60,
+  },
+  avatarPrimaryText: {
+    color: "#212121",
+    fontFamily: "Roboto-Bold",
+    fontSize: 13,
+    lineHeight: 15,
+  },
+  avatarSecondaryText: {
+    color: "#212121",
+    opacity: 0.8,
+    fontFamily: "Roboto-Reg",
+    fontSize: 11,
+    lineHeight: 13,
+  },
+  postsList: {
+    flex: 1,
+    marginTop: 32,
+  },
+  postItemContainer: {
+    marginBottom: 32,
+    marginHorizontal: 16,
+  },
+  postImg: {
+    width: 343,
+    height: 240,
+    marginBottom: 8,
+    borderRadius: 8,
+  },
+  postTitle: {
+    marginBottom: 8,
+    fontFamily: "Roboto-Bold",
+    fontSize: 16,
+    LineHeight: 19,
+  },
+  commentItemContainer: {
+    width: 293,
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
+    padding: 16,
+    borderRadius: 6,
+    marginBottom: 32,
+    marginHorizontal: 16,
+  },
+  commentsText: {
+    fontSize: 13,
+    lineHeight: 18,
+    color: "#212121",
+  },
+  commentsDate: {
+    FontFamily: "Roboto-Reg",
+    FontSize: 10,
+    LineHeight: 12,
+    color: "#bdbdbd",
+    marginLeft: "auto",
+  },
+  commentInput: {
+    width: 343,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderRadius: 100,
+    padding: 16,
+  },
+  commentInputIcon: {
+    position: "absolute",
+    right: 10,
+    bottom: 13,
+  },
 });
 
-// 1. Добавить логику на валидацию, разобраться с бокс шедоу, написать логику на показ пароля, выровнять хедер по центру на андроиде + тени на андроиде в таббаре
+// 1. Добавить логику на валидацию, разобраться с бокс шедоу, написать логику на показ пароля + тени на андроиде в таббаре
 // 2. Написать логику на проверку пароля/имейла по базе данных
