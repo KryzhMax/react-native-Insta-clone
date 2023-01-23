@@ -1,13 +1,14 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 import CustomTabBar from "../common/CustomTabBar";
 import NestedScreen from "./NestedScreen";
 import { styles } from "../Component";
-import PostsScreen from "./PostsScreen";
-import MapScreen from "./MapScreen";
+// import PostsScreen from "./PostsScreen";
+// import MapScreen from "./MapScreen";
 
 const Tabs = createBottomTabNavigator();
 
@@ -35,21 +36,27 @@ export default function Home(
         name="NestedScreen"
         // component={PostsScreen}
         component={NestedScreen}
-        options={{
-          //   headerTitleAlign: "center",
-          title: "Posts",
-          iconName: "grid",
-          headerStyle: { ...styles.headerStyle },
-
-          headerRight: () => (
-            <Feather
-              onPress={() => alert("Imagine you've logged out!")}
-              name="log-out"
-              size={24}
-              color="#BDBDBD"
-              style={styles.logout}
-            />
-          ),
+        options={({ route }) => {
+          const activeRoute = getFocusedRouteNameFromRoute(route);
+          return {
+            //   headerTitleAlign: "center",
+            title: "Posts",
+            iconName: "grid",
+            headerStyle: { ...styles.headerStyle },
+            headerRight: () => (
+              <Feather
+                onPress={() => alert("Imagine you've logged out!")}
+                name="log-out"
+                size={24}
+                color="#BDBDBD"
+                style={styles.logout}
+              />
+            ),
+            headerShown:
+              activeRoute === "MapScreen" || activeRoute === "CommentsScreen"
+                ? false
+                : true,
+          };
         }}
       />
       <Tabs.Screen

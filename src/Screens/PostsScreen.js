@@ -74,14 +74,7 @@ export default function PostsScreen({ route, navigation }) {
                     <Text>
                       <Feather name="map-pin" size={18} color="#BDBDBD" />
                       {"  "}
-                      <Text
-                        style={{
-                          fontFamily: "Roboto-Reg",
-                          textDecorationLine: "underline",
-                          fontSize: 16,
-                          lineHeight: 19,
-                        }}
-                      >
+                      <Text style={styles.postLocation}>
                         {item.state.location.place}
                       </Text>
                     </Text>
