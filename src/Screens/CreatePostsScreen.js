@@ -21,6 +21,7 @@ import { createPostInitState, createPostInputs } from "./variables";
 import { styles } from "../Component";
 
 export default function CreatePostsScreen({ navigation }) {
+  const [isDisabled, setIsDisabled] = useState(true);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [camera, setCamera] = useState(null);
   const [type, setType] = useState(CameraType.back);
@@ -72,11 +73,25 @@ export default function CreatePostsScreen({ navigation }) {
     Keyboard.dismiss();
   };
 
-  const onChangeText = (val, input) =>
+  const onChangeText = (val, input) => {
     setState((prevState) => ({
       ...prevState,
       [input]: val,
     }));
+
+    if (input === "name") {
+      if (state.location && val && photo) {
+        setIsDisabled(false);
+      }
+    } else {
+      if (state.name && photo) {
+        setIsDisabled(false);
+      }
+    }
+    if (!val) {
+      setIsDisabled(true);
+    }
+  };
 
   const getLocation = async () => {
     const picturePlace = await Location.reverseGeocodeAsync(location);
@@ -92,7 +107,6 @@ export default function CreatePostsScreen({ navigation }) {
     if (camera) {
       const { uri } = await camera.takePictureAsync();
       setPhoto(uri);
-
       getLocation();
 
       //   setTimeout(() => {
@@ -103,6 +117,7 @@ export default function CreatePostsScreen({ navigation }) {
 
   const onPost = () => {
     if (state.name && state.location && photo) {
+      setIsDisabled(true);
       navigation.navigate("NestedScreen", {
         screen: "PostsScreen",
         params: { photo, state },
@@ -173,6 +188,7 @@ export default function CreatePostsScreen({ navigation }) {
             onPress={() => {
               setPhoto("");
               onChangeText("", "location");
+              setIsDisabled(true);
               //   MediaLibrary.deleteAlbumsAsync(albums, assetRemove);
             }}
           >
@@ -193,13 +209,24 @@ export default function CreatePostsScreen({ navigation }) {
             )}
             <TouchableOpacity
               activeOpacity={0.8}
-              style={{ ...styles.btn, marginTop: 16 }}
+              style={{
+                ...styles.btn,
+                marginTop: 16,
+                backgroundColor: isDisabled ? "#F6F6F6" : "#FF6C00",
+              }}
               onPress={onPost}
               //   disabled={!state.name && !state.location && true}
               //   --------Try this ---------
-              disabled={!state && true}
+              disabled={isDisabled}
             >
-              <Text style={styles.btnText}>Publish</Text>
+              <Text
+                style={{
+                  ...styles.btnText,
+                  color: isDisabled ? "#bdbdbd" : "#fff",
+                }}
+              >
+                Publish
+              </Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>

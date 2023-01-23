@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 16,
     paddingHorizontal: 32,
     paddingVertical: 16,
-    backgroundColor: "#FF6C00",
+    // backgroundColor: "#FF6C00",
     borderRadius: 100,
     marginBottom: 16,
   },
@@ -327,5 +327,5 @@ export const styles = StyleSheet.create({
   },
 });
 
-// 1. Добавить логику на валидацию, разобраться с бокс шедоу, написать логику на показ пароля, выровнять хедер по центру на андроиде + тени на андроиде в таббаре
+// 1. Добавить логику на валидацию, разобраться с бокс шедоу, написать логику на показ пароля + тени на андроиде в таббаре
 // 2. Написать логику на проверку пароля/имейла по базе данных
