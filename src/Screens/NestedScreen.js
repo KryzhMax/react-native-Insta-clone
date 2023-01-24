@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import CommentsScreen from "./CommentsScreen";
 import MapScreen from "./MapScreen";
@@ -8,7 +9,17 @@ import { styles } from "../Component";
 
 const Nested = createStackNavigator();
 
-export default function NestedScreen({ navigation }) {
+export default function NestedScreen({ navigation, route }) {
+  useLayoutEffect(() => {
+    const tabHiddenRoutes = ["CommentsScreen", "MapScreen"];
+
+    if (tabHiddenRoutes.includes(getFocusedRouteNameFromRoute(route))) {
+      navigation.setOptions({ tabBarStyle: { display: "none" } });
+    } else {
+      navigation.setOptions({ tabBarStyle: { display: "flex" } });
+    }
+  }, [navigation, route]);
+
   return (
     <Nested.Navigator initialRouteName="PostsScreen">
       <Nested.Screen
