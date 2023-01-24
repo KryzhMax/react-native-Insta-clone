@@ -134,3 +134,13 @@ export default function Login({ navigation }) {
     </View>
   );
 }
+
+import { useIsFocused } from "@react-navigation/native";
+
+// ...
+// -----------ФУНКЦИЯ НА ШЕДОУ-----------
+// function Profile() {
+//   const isFocused = useIsFocused();
+
+//   return <Text>{isFocused ? "focused" : "unfocused"}</Text>;
+// }

@@ -3,6 +3,11 @@ import { Feather } from "@expo/vector-icons";
 import { styles } from "../Component";
 
 export default function CustomTabBar({ state, descriptors, navigation }) {
+  const focusedOptions = descriptors[state.routes[state.index].key].options;
+  if (focusedOptions?.tabBarStyle?.display === "none") {
+    return null;
+  }
+
   return (
     <View style={{ flexDirection: "row" }}>
       {state.routes.map((route, index) => {
@@ -64,7 +69,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
               }}
             >
               <Feather
-                style={{ color: isFocused ? "white" : "grey" }}
+                style={{ color: isFocused ? "#fff" : "rgba(0,0,0, 0.8" }}
                 name={options.iconName}
                 size={24}
               />
