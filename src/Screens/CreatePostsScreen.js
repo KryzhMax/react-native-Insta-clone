@@ -210,13 +210,11 @@ export default function CreatePostsScreen({ navigation }) {
             <TouchableOpacity
               activeOpacity={0.8}
               style={{
-                ...styles.btn,
+                ...styles.publishBtn,
                 marginTop: 16,
                 backgroundColor: isDisabled ? "#F6F6F6" : "#FF6C00",
               }}
               onPress={onPost}
-              //   disabled={!state.name && !state.location && true}
-              //   --------Try this ---------
               disabled={isDisabled}
             >
               <Text

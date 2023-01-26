@@ -14,6 +14,8 @@ import {
   Image,
   //   Pressable,
 } from "react-native";
+import { useDispatch } from "react-redux";
+import { authRegisterUser } from "../redux/auth/authOperations";
 // import DropShadow from "react-native-drop-shadow";
 import { styles } from "../Component";
 import AddButton from "../utils/Button";
@@ -25,11 +27,12 @@ export default function Registration({ navigation }) {
     Dimensions.get("window").width
   );
   const [inputFocus, setInputFocus] = useState(false);
-  const [shadowOffsetWidth, setShadowOffsetWidth] = useState(0);
+  const [shadowOffsetWidth, setShadowOffsetWidth] = useState(null);
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(4);
   const [shadowRadius, setShadowRadius] = useState(4);
   const [shadowOpacity, setShadowOpacity] = useState(0.25);
   const [state, setState] = useState(regInitState);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const onChange = () => {
@@ -54,12 +57,11 @@ export default function Registration({ navigation }) {
   };
 
   const onRegister = () => {
-    // Alert.alert(
-    //   "Credentials",
-    //   `${state.name} + ${state.email} + ${state.password}`
-    // );
     setIsShowKeyboard(false);
     Keyboard.dismiss();
+
+    dispatch(authRegisterUser(state));
+    // console.log("RegState", state);
     setState(regInitState);
 
     if (state.name && state.email && state.password) {
@@ -100,7 +102,7 @@ export default function Registration({ navigation }) {
                       onChangeText={(val) =>
                         setState((prevState) => ({
                           ...prevState,
-                          [name]: val,
+                          [name]: val.toLocaleLowerCase(),
                         }))
                       }
                       onFocus={onInputFocus}

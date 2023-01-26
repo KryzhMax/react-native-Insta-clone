@@ -12,11 +12,7 @@ import { styles } from "../Component";
 
 const Tabs = createBottomTabNavigator();
 
-export default function Home(
-  {
-    /*navigation*/
-  }
-) {
+export default function Home({ navigation }) {
   return (
     <Tabs.Navigator
       tabBar={(props) => <CustomTabBar {...props} />}
@@ -66,6 +62,18 @@ export default function Home(
           title: "Create post",
           iconName: "plus",
           headerStyle: { ...styles.headerStyle },
+          tabBarStyle: { display: "none" },
+          headerLeft: () => (
+            <Feather
+              name="arrow-left"
+              color="#BDBDBD"
+              size={24}
+              style={{ marginLeft: 16 }}
+              onPress={() => {
+                navigation.navigate("PostsScreen");
+              }}
+            />
+          ),
         }}
       />
       <Tabs.Screen

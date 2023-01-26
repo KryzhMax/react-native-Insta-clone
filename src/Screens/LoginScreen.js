@@ -13,7 +13,9 @@ import {
   ImageBackground,
   //   Pressable,
 } from "react-native";
+import { useDispatch } from "react-redux";
 // import DropShadow from "react-native-drop-shadow";
+import { authSignInUser } from "../redux/auth/authOperations";
 import { background, registrationInputs, loginInitState } from "./variables";
 import { styles } from "../Component";
 
@@ -29,6 +31,8 @@ export default function Login({ navigation }) {
   const [shadowRadius, setShadowRadius] = useState(4);
   const [shadowOpacity, setShadowOpacity] = useState(0.25);
   const [state, setState] = useState(loginInitState);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const onChange = () => {
@@ -56,7 +60,8 @@ export default function Login({ navigation }) {
     // Alert.alert("Credentials", `${state.email} + ${state.password}`);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-    setState(loginInitState);
+    dispatch(authSignInUser(state));
+    // setState(loginInitState);
 
     if (state.email && state.password) {
       navigation.navigate("Home");
@@ -93,7 +98,7 @@ export default function Login({ navigation }) {
                       onChangeText={(val) =>
                         setState((prevState) => ({
                           ...prevState,
-                          [name]: val,
+                          [name]: val.toLocaleLowerCase(),
                         }))
                       }
                       onFocus={onInputFocus}

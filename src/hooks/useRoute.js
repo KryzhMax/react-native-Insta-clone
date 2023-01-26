@@ -1,17 +1,20 @@
 import React from "react";
+// import {useSelector} from 'react-redux'
 import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Registration from "../Screens/RegistrationScreen";
 import Login from "../Screens/LoginScreen";
 import Home from "../Screens/Home";
 
 const MainStack = createStackNavigator();
-const Tabs = createBottomTabNavigator();
+// const Tabs = createBottomTabNavigator();
 
 export default function useRoute(isAuth) {
+  // const isAuth = useSelector(selectIsAuth);
+  // console.log("isAuth", isAuth);
   return (
     <MainStack.Navigator initialRouteName="Login">
-      {isAuth ? (
+      {!isAuth ? (
         <>
           <MainStack.Screen
             name="Registration"

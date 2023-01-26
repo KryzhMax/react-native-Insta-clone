@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>420539286620-cfhk11hsn0ttjlv8sotu9ln6fi3oejg3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.420539286620-cfhk11hsn0ttjlv8sotu9ln6fi3oejg3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAUjHZs8v5rVs-cjBgXMrsEg5kJxrMsxTk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>420539286620</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>nr-social</string>
+	<key>PROJECT_ID</key>
+	<string>rn-social-906d0</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rn-social-906d0.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:420539286620:ios:25efdfdce0718816da9299</string>
+	<key>DATABASE_URL</key>
+	<string>https://rn-social-906d0-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>
