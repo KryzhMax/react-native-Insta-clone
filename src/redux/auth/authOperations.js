@@ -2,29 +2,26 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
 } from "firebase/auth";
+import { auth } from "../../firebase/config";
 import { Alert } from "react-native";
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { useDispatch } from "react-redux";
+// import { getFirestore } from "firebase/firestore";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { app } from "../../firebase/config";
-import { store } from "../store";
+// import { store } from "../store";
 import { authSlice } from "./AuthSlice";
 
-// 1.
+const { updateUserProfile, login, register } = authSlice.actions;
+
+// 1. Not settled yet
 export const authSignInUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      //   const dispatch = useDispatch();
-      const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password).then(
         (userCredential) => {
           // Signed in
-          //   dispatch(
-          //     authSlice.actions.updateUserProfile({ userId: user.userId })
-          //   );
+
           const user = userCredential.user;
           console.log("Logged In", user);
           // ...
@@ -45,25 +42,24 @@ export const authSignInUser = createAsyncThunk(
   }
 );
 
+// 2. With Bugs
+
 export const authRegisterUser = createAsyncThunk(
   "auth/register",
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ email, password }, { rejectWithValue, dispatch }) => {
+    //   ({ email, password }) =>
+    //   async (dispatch, getState) => {
     try {
-      //   const dispatch = useDispatch();
-      const auth = getAuth();
-      await createUserWithEmailAndPassword(auth, email, password).then(
-        (userCredential) => {
-          // Signed in
-          //   dispatch(
-          //     authSlice.actions.updateUserProfile({ userId: user.userId })
-          //   );
-          const user = userCredential.user;
-          console.log("Created new user", user.uid);
-          // ...
-        }
-      );
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(user);
+
+      const toUpdate = {
+        userId: user.uid,
+        email: user.email,
+        //   name: user.name,
+      };
+      dispatch(updateUserProfile(toUpdate));
     } catch (error) {
-      //   console.log(error.message);
       const errorMessage = error.message;
 
       if (errorMessage === "Firebase: Error (auth/email-already-in-use).") {
@@ -74,29 +70,30 @@ export const authRegisterUser = createAsyncThunk(
   }
 );
 
-// export const authSignOutUser = () = async (dispatch, getState) => { };
+// 3. Fck
 
-// export const authLogInUser = createAsyncThunk(
-//   "auth/login",
-//   async (user, { rejectWithValue }) => {
-//     try {
-//       //   const { data } = await axios.post("/auth/login", user);
+export const onAuthStateChange = createAsyncThunk(
+  "auth/stateChange",
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      await onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const userUpdateProfile = {
+            userId: user.uid,
+            email: user.email,
+          };
 
-//       return data;
-//     } catch (error) {
-//       if (error.response.status === 401) {
-//         toast.error("Email or password invalid");
-//         return rejectWithValue(error.request.message);
-//       }
-//       toast.error("Oops, something went wrong");
-//       return rejectWithValue(error.request.status);
-//     }
-//   }
-// );
+          dispatch(updateUserProfile(userUpdateProfile));
+        }
+      });
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
-// -----Also working code, but without Thunks-------
+// // -----Also working code, but without Thunks-------
 // export const authRegisterUser = async ({ email, password }) => {
-//   const auth = getAuth();
 //   await createUserWithEmailAndPassword(auth, email, password)
 //     .then((userCredential) => {
 //       // Signed in
