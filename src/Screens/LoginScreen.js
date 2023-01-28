@@ -57,7 +57,6 @@ export default function Login({ navigation }) {
   };
 
   const onLogin = () => {
-    // Alert.alert("Credentials", `${state.email} + ${state.password}`);
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     dispatch(authSignInUser(state));

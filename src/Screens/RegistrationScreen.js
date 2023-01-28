@@ -85,7 +85,10 @@ export default function Registration({ navigation }) {
             >
               <View style={styles.box}>
                 <View style={styles.avatarBox}>
-                  <Image style={styles.avatar} />
+                  <Image
+                    style={styles.avatar}
+                    source={require("../../src/assets/img/User.jpg")}
+                  />
                   <AddButton style={styles.addBtn} size={25} />
                 </View>
                 <View style={styles.formHeaderContainer}>

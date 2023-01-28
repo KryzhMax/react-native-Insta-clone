@@ -17,7 +17,9 @@ import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { uploadPhotoToServer } from "../firebase/uploadPhoto";
 import { createPostInitState, createPostInputs } from "./variables";
+
 import { styles } from "../Component";
 
 export default function CreatePostsScreen({ navigation }) {
@@ -118,6 +120,7 @@ export default function CreatePostsScreen({ navigation }) {
   const onPost = () => {
     if (state.name && state.location && photo) {
       setIsDisabled(true);
+      uploadPhotoToServer(photo, "postImage");
       navigation.navigate("NestedScreen", {
         screen: "PostsScreen",
         params: { photo, state },

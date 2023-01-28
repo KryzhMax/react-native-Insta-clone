@@ -9,30 +9,27 @@ const initialState = {
   error: false,
 };
 
+const actions = {
+  updateUserProfile: (state, { payload }) => ({
+    ...state,
+    userId: payload.uid,
+    name: payload.name,
+    email: payload.email,
+    isAuth: true,
+  }),
+  // authStateChange: (state, { payload }) => ({
+  //   ...state,
+  //   isAuth: payload.isAuth,
+  //   email: payload.email,
+  //   name: payload.name,
+  // }),
+  authSignOut: () => initialState,
+};
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    login: (state) => {
-      state.isAuth = true;
-      state.isLoading = false;
-    },
-    register: (state, { payload }) => {
-      console.log(payload);
-      state.isAuth = true;
-      state.userId = payload.uid;
-    },
-    updateUserProfile: (state, { payload }) => ({
-      // ...state,
-      // userId: payload,
-      ...state,
-      userId: payload.userId,
-    }),
-  },
+  reducers: actions,
 });
 
-// Action creators are generated for each case reducer function
-// export const { login, logout, register } = authSlice.actions;
-
 export const authReducer = authSlice.reducer;
-console.log(authSlice);

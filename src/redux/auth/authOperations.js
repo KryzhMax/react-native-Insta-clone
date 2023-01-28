@@ -1,34 +1,32 @@
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  updateProfile,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import { Alert } from "react-native";
-// import { getFirestore } from "firebase/firestore";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 // import { store } from "../store";
 import { authSlice } from "./AuthSlice";
 
-const { updateUserProfile, login, register } = authSlice.actions;
+const { updateUserProfile, authSignOut } = authSlice.actions;
 
-// 1. Not settled yet
 export const authSignInUser = createAsyncThunk(
   "auth/login",
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ email, password }, { rejectWithValue, dispatch }) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password).then(
-        (userCredential) => {
-          // Signed in
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
 
-          const user = userCredential.user;
-          console.log("Logged In", user);
-          // ...
-        }
-      );
+      const userToUpdate = {
+        userId: user.uid,
+        email: user.email,
+        name: user.displayName,
+      };
+
+      dispatch(updateUserProfile(userToUpdate));
     } catch (error) {
-      console.log(error.message);
       const errorMessage = error.message;
 
       if (errorMessage === "Firebase: Error (auth/user-not-found).") {
@@ -36,58 +34,82 @@ export const authSignInUser = createAsyncThunk(
       }
       if (errorMessage === "Firebase: Error (auth/wrong-password).") {
         Alert.alert("Wrong password");
+      } else {
+        Alert.alert("Something went wrong, try to reload the app");
       }
       return rejectWithValue(errorMessage);
     }
   }
 );
 
-// 2. With Bugs
-
 export const authRegisterUser = createAsyncThunk(
   "auth/register",
-  async ({ email, password }, { rejectWithValue, dispatch }) => {
-    //   ({ email, password }) =>
-    //   async (dispatch, getState) => {
+  async ({ name, email, password }, { rejectWithValue, dispatch }) => {
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(user);
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-      const toUpdate = {
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+        email: email,
+        // photoURL: userAvatarUrl,
+      });
+
+      const userToUpdate = {
         userId: user.uid,
         email: user.email,
-        //   name: user.name,
+        name: user.displayName,
       };
-      dispatch(updateUserProfile(toUpdate));
+
+      dispatch(updateUserProfile(userToUpdate));
     } catch (error) {
       const errorMessage = error.message;
 
       if (errorMessage === "Firebase: Error (auth/email-already-in-use).") {
         Alert.alert("This email is in use");
+      } else {
+        Alert.alert("Something went wrong, try to reload the app");
       }
       return rejectWithValue(errorMessage);
     }
   }
 );
-
-// 3. Fck
 
 export const onAuthStateChange = createAsyncThunk(
   "auth/stateChange",
   async (_, { rejectWithValue, dispatch }) => {
     try {
       await onAuthStateChanged(auth, (user) => {
+        console.log("onAuthStateChange", user);
         if (user) {
-          const userUpdateProfile = {
+          const userToUpdate = {
             userId: user.uid,
             email: user.email,
+            name: user.displayName,
           };
 
-          dispatch(updateUserProfile(userUpdateProfile));
+          dispatch(updateUserProfile(userToUpdate));
         }
       });
     } catch (error) {
-      return rejectWithValue(error.message);
+      const errorMessage = error.message;
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const authSignOutUser = createAsyncThunk(
+  "auth/signOut",
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      signOut(auth);
+      dispatch(authSignOut());
+    } catch (error) {
+      const errorMessage = error.message;
+      return rejectWithValue(errorMessage);
     }
   }
 );

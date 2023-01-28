@@ -7,12 +7,18 @@ import ProfileScreen from "./ProfileScreen";
 import CustomTabBar from "../common/CustomTabBar";
 import NestedScreen from "./NestedScreen";
 import { styles } from "../Component";
+import { authSignOutUser } from "../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
 // import PostsScreen from "./PostsScreen";
 // import MapScreen from "./MapScreen";
 
 const Tabs = createBottomTabNavigator();
 
 export default function Home({ navigation }) {
+  const dispatch = useDispatch();
+
+  const onLogOut = () => dispatch(authSignOutUser());
+
   return (
     <Tabs.Navigator
       tabBar={(props) => <CustomTabBar {...props} />}
@@ -41,7 +47,7 @@ export default function Home({ navigation }) {
             headerStyle: { ...styles.headerStyle },
             headerRight: () => (
               <Feather
-                onPress={() => alert("Imagine you've logged out!")}
+                onPress={onLogOut}
                 name="log-out"
                 size={24}
                 color="#BDBDBD"
