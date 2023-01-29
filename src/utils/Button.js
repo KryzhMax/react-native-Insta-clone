@@ -16,7 +16,7 @@ const lineProps = {
 
 export default function AddButton({ size /*onPress*/ }) {
   return (
-    <TouchableHighlight /*onPress={onPress}*/>
+    <TouchableHighlight style={{ marginBottom: 14 }} /*onPress={onPress}*/>
       <View style={{ width: size, height: size }}>
         <Svg
           width={size}

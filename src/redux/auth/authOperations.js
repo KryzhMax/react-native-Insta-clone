@@ -10,6 +10,8 @@ import { Alert } from "react-native";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 // import { store } from "../store";
 import { authSlice } from "./AuthSlice";
+import { uploadPhotoToServer } from "../../firebase/uploadPhoto";
+import { uploadPostToServer } from "../../firebase/firestore";
 
 const { updateUserProfile, authSignOut } = authSlice.actions;
 
@@ -83,7 +85,6 @@ export const onAuthStateChange = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       await onAuthStateChanged(auth, (user) => {
-        console.log("onAuthStateChange", user);
         if (user) {
           const userToUpdate = {
             userId: user.uid,
@@ -107,6 +108,29 @@ export const authSignOutUser = createAsyncThunk(
     try {
       signOut(auth);
       dispatch(authSignOut());
+    } catch (error) {
+      const errorMessage = error.message;
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const uploadDataToServer = createAsyncThunk(
+  "auth/uploadPost",
+  async ({ title, location, photo, userId }, { rejectWithValue }) => {
+    try {
+      const photoURL = await uploadPhotoToServer(photo, "postImage");
+      console.log("photoURL", photoURL);
+      const createPost = await uploadPostToServer({
+        title,
+        location,
+        photo: photoURL,
+        userId,
+        comments: [],
+      });
+      console.log("createPost", createPost);
+
+      return createPost;
     } catch (error) {
       const errorMessage = error.message;
       return rejectWithValue(errorMessage);

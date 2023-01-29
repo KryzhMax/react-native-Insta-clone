@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Text,
   View,
@@ -8,18 +9,20 @@ import {
   Alert,
   Keyboard,
   TextInput,
-  Dimensions,
+  // Dimensions,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from "react-native";
 import { Camera, CameraType } from "expo-camera";
-import * as MediaLibrary from "expo-media-library";
+// import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { uploadPhotoToServer } from "../firebase/uploadPhoto";
+// import { uploadPhotoToServer } from "../firebase/uploadPhoto";
 import { createPostInitState, createPostInputs } from "./variables";
-
+import { selectUserId } from "../redux/auth/authSelectors";
+// import { uploadCommentToServer } from "../firebase/firestore";
+import { uploadDataToServer } from "../redux/auth/authOperations";
 import { styles } from "../Component";
 
 export default function CreatePostsScreen({ navigation }) {
@@ -32,6 +35,8 @@ export default function CreatePostsScreen({ navigation }) {
   const [state, setState] = useState(createPostInitState);
   const [location, setLocation] = useState({});
 
+  const userIdRef = useSelector(selectUserId);
+  const dispatch = useDispatch();
   //   const [screenWidth, setScreenWidth] = useState(
   //     Dimensions.get("window").width
   //   );
@@ -120,10 +125,20 @@ export default function CreatePostsScreen({ navigation }) {
   const onPost = () => {
     if (state.name && state.location && photo) {
       setIsDisabled(true);
-      uploadPhotoToServer(photo, "postImage");
+
+      const post = {
+        title: state.name,
+        location: state.location,
+        photo: photo,
+        userId: userIdRef,
+      };
+
+      dispatch(uploadDataToServer(post));
+
       navigation.navigate("NestedScreen", {
         screen: "PostsScreen",
         params: { photo, state },
+        // params: { photo, post },
       });
     } else {
       Alert.alert("Credentials", "Please fill out all fields to make a post!");

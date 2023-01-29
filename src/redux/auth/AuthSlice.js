@@ -7,12 +7,13 @@ const initialState = {
   isAuth: false,
   isLoading: false,
   error: false,
+  comments: [],
 };
 
 const actions = {
   updateUserProfile: (state, { payload }) => ({
     ...state,
-    userId: payload.uid,
+    userId: payload.userId,
     name: payload.name,
     email: payload.email,
     isAuth: true,

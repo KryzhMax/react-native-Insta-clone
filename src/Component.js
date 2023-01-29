@@ -50,10 +50,25 @@ export const styles = StyleSheet.create({
     width: 330,
     padding: 25,
   },
+  avatarBoxReg: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginTop: -80,
+    marginBottom: 32,
+    marginHorizontal: "auto",
+  },
+  avatarReg: {
+    width: 120,
+    height: 120,
+    bottom: -45,
+    left: 60,
+    transform: [{ translateX: -45 }, { translateY: -45 }],
+    backgroundColor: "#F6F6F6",
+    borderRadius: 16,
+  },
   avatarBox: {
     flexDirection: "row",
     alignItems: "flex-end",
-
     marginTop: -60,
     marginBottom: 32,
     marginHorizontal: "auto",
@@ -113,6 +128,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 18,
     marginBottom: 45,
+    color: "#1B4371",
   },
   linkText: {
     color: "tomato",

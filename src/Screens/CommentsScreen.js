@@ -26,7 +26,7 @@ export default function CommentsScreen({ route }) {
   const [date, setDate] = useState("");
   const [photo, setPhoto] = useState(null);
 
-  console.log("comments", comments);
+  // console.log("comments", comments);
 
   useEffect(() => {
     if (route.params) {
