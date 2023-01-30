@@ -307,6 +307,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   postImg: {
+    resizeMode: "cover",
     width: 343,
     height: 240,
     marginBottom: 8,

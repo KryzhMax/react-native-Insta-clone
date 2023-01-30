@@ -137,7 +137,7 @@ export default function CreatePostsScreen({ navigation }) {
 
       navigation.navigate("NestedScreen", {
         screen: "PostsScreen",
-        params: { photo, state },
+        params: { photo, state } || "",
         // params: { photo, post },
       });
     } else {

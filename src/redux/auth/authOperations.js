@@ -133,7 +133,8 @@ export const uploadDataToServer = createAsyncThunk(
       return createPost;
     } catch (error) {
       const errorMessage = error.message;
-      return rejectWithValue(errorMessage);
+      console.log("error", error);
+      return rejectWithValue(error);
     }
   }
 );

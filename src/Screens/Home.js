@@ -9,8 +9,6 @@ import NestedScreen from "./NestedScreen";
 import { styles } from "../Component";
 import { authSignOutUser } from "../redux/auth/authOperations";
 import { useDispatch } from "react-redux";
-// import PostsScreen from "./PostsScreen";
-// import MapScreen from "./MapScreen";
 
 const Tabs = createBottomTabNavigator();
 
@@ -24,8 +22,8 @@ export default function Home({ navigation }) {
       tabBar={(props) => <CustomTabBar {...props} />}
       initialRouteName="ProfileScreen"
       screenOptions={{
-        tabBarActiveTintColor: "white",
-        tabBarInactiveTintColor: "gray",
+        // tabBarActiveTintColor: "white",
+        // tabBarInactiveTintColor: "gray",
         tabBarStyle: [
           {
             display: "flex",
@@ -36,7 +34,6 @@ export default function Home({ navigation }) {
     >
       <Tabs.Screen
         name="NestedScreen"
-        // component={PostsScreen}
         component={NestedScreen}
         options={({ route }) => {
           const activeRoute = getFocusedRouteNameFromRoute(route);
@@ -76,7 +73,7 @@ export default function Home({ navigation }) {
               size={24}
               style={{ marginLeft: 16 }}
               onPress={() => {
-                navigation.navigate("PostsScreen");
+                navigation.navigate("NestedScreen", { screen: "PostsScreen" });
               }}
             />
           ),
