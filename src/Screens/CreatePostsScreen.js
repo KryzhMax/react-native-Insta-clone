@@ -22,7 +22,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createPostInitState, createPostInputs } from "./variables";
 import { selectUserId } from "../redux/auth/authSelectors";
 // import { uploadCommentToServer } from "../firebase/firestore";
-import { uploadDataToServer } from "../redux/auth/authOperations";
+import { uploadDataToServer } from "../redux/posts/postsOperations";
 import { styles } from "../Component";
 
 export default function CreatePostsScreen({ navigation }) {
@@ -137,8 +137,8 @@ export default function CreatePostsScreen({ navigation }) {
 
       navigation.navigate("NestedScreen", {
         screen: "PostsScreen",
-        params: { photo, state } || "",
-        // params: { photo, post },
+        // Можно будет удалить, поскольку запрос пойдет на базу данных
+        // params: { photo, state },
       });
     } else {
       Alert.alert("Credentials", "Please fill out all fields to make a post!");

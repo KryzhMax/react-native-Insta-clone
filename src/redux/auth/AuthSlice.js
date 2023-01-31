@@ -4,10 +4,11 @@ const initialState = {
   userId: null,
   name: "",
   email: "",
+  avatar: null,
   isAuth: false,
   isLoading: false,
   error: false,
-  comments: [],
+  // comments: [],
 };
 
 const actions = {

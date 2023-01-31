@@ -5,10 +5,11 @@ import { styles } from "../Component";
 
 const MapScreen = ({ route }) => {
   const [location, setLocation] = useState(null);
+  const { place, latitude, longitude } = route.params.params;
 
   useEffect(() => {
     if (route.params) {
-      setLocation(route.params);
+      setLocation(route.params.params);
     }
   }, [route.params]);
 
@@ -16,7 +17,7 @@ const MapScreen = ({ route }) => {
     <View style={styles.container}>
       <MapView
         style={styles.mapStyle}
-        initialRegion={{
+        region={{
           ...location,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
@@ -25,12 +26,12 @@ const MapScreen = ({ route }) => {
       >
         {location && (
           <Marker
-            title="I am here"
+            title="I was here :)"
             coordinate={{
-              latitude: location.latitude,
-              longitude: location.longitude,
+              latitude,
+              longitude,
             }}
-            description="Hello"
+            description={place}
           />
         )}
       </MapView>

@@ -115,30 +115,6 @@ export const authSignOutUser = createAsyncThunk(
   }
 );
 
-export const uploadDataToServer = createAsyncThunk(
-  "auth/uploadPost",
-  async ({ title, location, photo, userId }, { rejectWithValue }) => {
-    try {
-      const photoURL = await uploadPhotoToServer(photo, "postImage");
-      console.log("photoURL", photoURL);
-      const createPost = await uploadPostToServer({
-        title,
-        location,
-        photo: photoURL,
-        userId,
-        comments: [],
-      });
-      console.log("createPost", createPost);
-
-      return createPost;
-    } catch (error) {
-      const errorMessage = error.message;
-      console.log("error", error);
-      return rejectWithValue(error);
-    }
-  }
-);
-
 // // -----Also working code, but without Thunks-------
 // export const authRegisterUser = async ({ email, password }) => {
 //   await createUserWithEmailAndPassword(auth, email, password)

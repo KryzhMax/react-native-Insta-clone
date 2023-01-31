@@ -4,7 +4,6 @@ import { styles } from "../Component";
 
 export default function CustomTabBar({ state, descriptors, navigation }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
-  console.log("focusedOptions", focusedOptions);
   if (focusedOptions?.tabBarStyle?.display === "none") {
     return null;
   }

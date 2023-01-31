@@ -7,16 +7,11 @@ import ProfileScreen from "./ProfileScreen";
 import CustomTabBar from "../common/CustomTabBar";
 import NestedScreen from "./NestedScreen";
 import { styles } from "../Component";
-import { authSignOutUser } from "../redux/auth/authOperations";
-import { useDispatch } from "react-redux";
+import { onLogOut } from "../hooks/useLogout";
 
 const Tabs = createBottomTabNavigator();
 
 export default function Home({ navigation }) {
-  const dispatch = useDispatch();
-
-  const onLogOut = () => dispatch(authSignOutUser());
-
   return (
     <Tabs.Navigator
       tabBar={(props) => <CustomTabBar {...props} />}

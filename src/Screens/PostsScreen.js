@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   View,
   Image,
@@ -8,16 +9,21 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { postsSelector } from "../redux/posts/postsSelectors";
+import { selectName, selectEmail } from "../redux/auth/authSelectors";
+import { getPosts } from "../redux/posts/postsOperations";
 import { styles } from "../Component";
 
-export default function PostsScreen({ route, navigation }) {
-  const [posts, setPosts] = useState([]);
+export default function PostsScreen({ navigation }) {
+  const postsRef = useSelector(postsSelector);
+  const userNameRef = useSelector(selectName);
+  const userEmailRef = useSelector(selectEmail);
+  // console.log("postsRef", postsRef);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (route.params) {
-      setPosts((prevPosts) => [...prevPosts, route.params]);
-    }
-  }, [route.params]);
+    dispatch(getPosts());
+  }, []);
 
   return (
     <>
@@ -27,24 +33,27 @@ export default function PostsScreen({ route, navigation }) {
           source={require("../../src/assets/img/User.jpg")}
         />
         <View style={{ marginLeft: 8 }}>
-          <Text style={styles.avatarPrimaryText}>Natali Romanova</Text>
-          <Text style={styles.avatarSecondaryText}>email@example.com</Text>
+          <Text style={styles.avatarPrimaryText}>{userNameRef}</Text>
+          <Text style={styles.avatarSecondaryText}>{userEmailRef}</Text>
         </View>
       </View>
       <SafeAreaView style={styles.postsList}>
         <FlatList
-          data={posts}
+          data={postsRef}
           keyExtractor={(_, idx) => idx.toString()}
           renderItem={({ item }) => (
-            // console.log("item.photo", item.photo)
             <View style={styles.postItemContainer}>
               <Image source={{ uri: item.photo }} style={styles.postImg} />
-              <Text style={styles.postTitle}>{item.state.name}</Text>
+              <Text style={styles.postTitle}>{item.title}</Text>
               <Text>
                 <Text>
                   <TouchableOpacity
                     onPress={() =>
-                      navigation.navigate("CommentsScreen", item.photo)
+                      navigation.navigate("CommentsScreen", {
+                        photo: item.photo,
+                        id: item.id,
+                        userId: item.userId,
+                      })
                     }
                   >
                     <Text>
@@ -65,8 +74,9 @@ export default function PostsScreen({ route, navigation }) {
                       navigation.navigate("MapScreen", {
                         screen: "MapScreen",
                         params: {
-                          latitude: item.state.location.latitude,
-                          longitude: item.state.location.longitude,
+                          latitude: item.location.latitude,
+                          longitude: item.location.longitude,
+                          place: item.location.place,
                         },
                       })
                     }
@@ -75,7 +85,7 @@ export default function PostsScreen({ route, navigation }) {
                       <Feather name="map-pin" size={18} color="#BDBDBD" />
                       {"  "}
                       <Text style={styles.postLocation}>
-                        {item.state.location.place}
+                        {item.location.place}
                       </Text>
                     </Text>
                   </TouchableOpacity>
