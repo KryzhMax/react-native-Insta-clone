@@ -9,19 +9,14 @@ const { createPost } = postsSlice.actions;
 
 export const uploadDataToServer = createAsyncThunk(
   "posts/uploadPost",
-  async (
-    { title, location, photo, userId /*avatar*/ },
-    { rejectWithValue }
-  ) => {
+  async ({ title, location, photo, userId }, { rejectWithValue }) => {
     try {
       const photoURL = await uploadPhotoToServer(photo, "postImage");
-      // console.log("photoURL", photoURL);
       const postUploaded = await uploadPostToServer({
         title,
         location,
         photo: photoURL,
         userId,
-        // avatar,
         comments: [],
       });
 
@@ -62,7 +57,6 @@ export const addComments = createAsyncThunk(
   "posts/getComments",
 
   async ({ postId, comment, user }, { rejectWithValue }) => {
-    console.log("!!!!addComments", user);
     try {
       await updatePost(postId, { comment, user });
     } catch (error) {

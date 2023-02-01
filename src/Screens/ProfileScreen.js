@@ -20,7 +20,6 @@ import {
   selectName,
   selectPhoto,
 } from "../redux/auth/authSelectors";
-// import { styles } from "../Component";
 
 import { getPosts } from "../redux/posts/postsOperations";
 import { onLogOut } from "../hooks/useLogout";
@@ -36,7 +35,6 @@ export default function ProfileScreen({ navigation }) {
   const userPhoto = useSelector(selectPhoto);
   const posts = useSelector(postsSelector);
   const dispatch = useDispatch();
-  // console.log("userPhoto", userPhoto);
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });

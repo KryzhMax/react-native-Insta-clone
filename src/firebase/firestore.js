@@ -22,7 +22,6 @@ export const uploadPostToServer = async (post) => {
 };
 
 export const updatePost = async (post, comment) => {
-  console.log("comment", comment);
   try {
     await updateDoc(doc(db, "posts", `${post}`), {
       "post.comments": arrayUnion({ ...comment.comment }),

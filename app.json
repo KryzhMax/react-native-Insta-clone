@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "react-native-project",
-    "slug": "react-native-project",
+    "name": "Insta clone",
+    "slug": "insta-clone",
+    "description": "Share photos just between your friends",
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./src/assets/icon.png",
+    "icon": "./src/assets/insta-clone.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./src/assets/splash.png",
@@ -20,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/adaptive- ",
         "backgroundColor": "#FFFFFF"
       }
     },

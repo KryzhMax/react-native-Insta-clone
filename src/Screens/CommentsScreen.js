@@ -31,11 +31,9 @@ export default function CommentsScreen({ route }) {
   const postsRef = useSelector(postsSelector);
   const dispatch = useDispatch();
   const userAvatarRef = useSelector(selectPhoto);
-  console.log("CommentsScreen-userAvatarRef", userAvatarRef);
 
   useEffect(() => {
     const { photo, id, userId } = route.params;
-    console.log("route.params", route.params);
     if (route.params) {
       const post = postsRef.find((post) => post.id === route.params.id);
       setPost({ photo: photo, postId: id, userId: userId });
@@ -44,7 +42,6 @@ export default function CommentsScreen({ route }) {
 
     dispatch(getAllComments({ postId: id }));
   }, [route.params, dispatch]);
-  console.log("CommentsScreen", comments);
   const onInputFocus = () => {
     setIsShowKeyboard(true);
     setInputFocus(true);
@@ -89,14 +86,10 @@ export default function CommentsScreen({ route }) {
   };
 
   const onCommentSend = () => {
-    // setComments((prevComments) => [...prevComments, value]);
-
-    // НЕ считывает объект юзер????
     const user = {
       userId: post.userId,
       userNameRef: userNameRef,
       userUri: userAvatarRef,
-      // userUri,
     };
     if (value) {
       dispatch(addComments({ postId: post.postId, comment: value, user }));
@@ -121,12 +114,10 @@ export default function CommentsScreen({ route }) {
             />
 
             <View style={styles.commentItemContainer}>
-              {/* <TouchableWithoutFeedback onPress={onDismiss}> */}
               <View>
                 <Text style={styles.commentsText}>{item?.comment}</Text>
                 <Text style={styles.commentsDate}>{item.date}</Text>
               </View>
-              {/* </TouchableWithoutFeedback> */}
             </View>
           </View>
         )}
