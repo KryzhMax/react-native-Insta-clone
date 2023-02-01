@@ -9,7 +9,7 @@ import {
   Alert,
   Keyboard,
   TextInput,
-  // Dimensions,
+  Dimensions,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -20,7 +20,7 @@ import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 // import { uploadPhotoToServer } from "../firebase/uploadPhoto";
 import { createPostInitState, createPostInputs } from "./variables";
-import { selectUserId } from "../redux/auth/authSelectors";
+import { selectPhoto, selectUserId } from "../redux/auth/authSelectors";
 // import { uploadCommentToServer } from "../firebase/firestore";
 import { uploadDataToServer } from "../redux/posts/postsOperations";
 import { styles } from "../Component";
@@ -36,10 +36,11 @@ export default function CreatePostsScreen({ navigation }) {
   const [location, setLocation] = useState({});
 
   const userIdRef = useSelector(selectUserId);
+  const userPhotoRef = useSelector(selectPhoto);
   const dispatch = useDispatch();
-  //   const [screenWidth, setScreenWidth] = useState(
-  //     Dimensions.get("window").width
-  //   );
+  const [screenWidth, setScreenWidth] = useState(
+    Dimensions.get("window").width
+  );
 
   useEffect(() => {
     (async () => {
@@ -57,15 +58,15 @@ export default function CreatePostsScreen({ navigation }) {
     })();
 
     //   ------------------ НЕ УВЕРЕН, что это надо -----------
-    // const onChange = () => {
-    //   const windowWidth = Dimensions.get("window").width;
-    //   // const windowHeight = Dimensions.get("window").height;
-    //   setScreenWidth(windowWidth);
-    // };
-    // const subscription = Dimensions.addEventListener("change", onChange);
-    // return () => {
-    //   subscription.remove();
-    // };
+    const onChange = () => {
+      const windowWidth = Dimensions.get("window").width;
+      // const windowHeight = Dimensions.get("window").height;
+      setScreenWidth(windowWidth);
+    };
+    const subscription = Dimensions.addEventListener("change", onChange);
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   if (hasPermission === null) {
@@ -127,7 +128,7 @@ export default function CreatePostsScreen({ navigation }) {
         location: state.location,
         photo: photo,
         userId: userIdRef,
-        // id: userIdRef,
+        // avatar: userPhotoRef,
       };
 
       dispatch(uploadDataToServer(post));
@@ -206,7 +207,11 @@ export default function CreatePostsScreen({ navigation }) {
           >
             <Text style={styles.reBtn}>Make another photo</Text>
           </TouchableOpacity>
-          <View style={styles.createPostInputContainer}>
+          <View
+            style={{
+              ...styles.createPostInputContainer,
+            }}
+          >
             {createPostInputs.map(
               ({ name, placeholderTextColor, placeholder }) => (
                 <TextInput

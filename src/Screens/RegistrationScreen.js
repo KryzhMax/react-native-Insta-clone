@@ -97,7 +97,7 @@ export default function Registration({ navigation }) {
     const validEmail = state.email.match(/\S+@\S+\.\S+/);
     const validPass = state.password.length >= 6;
 
-    if (state.name && validEmail && validPass && state.avatar) {
+    if (state.name && validEmail && validPass) {
       navigation.navigate("Home");
     } else {
       Alert.alert(

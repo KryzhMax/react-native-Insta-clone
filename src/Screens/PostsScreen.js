@@ -23,7 +23,7 @@ export default function PostsScreen({ navigation }) {
   const userNameRef = useSelector(selectName);
   const userEmailRef = useSelector(selectEmail);
   const userPhotoRef = useSelector(selectPhoto);
-  // console.log("userPhotoRef", userPhotoRef);
+  console.log("userPhotoRef", userPhotoRef);
   const dispatch = useDispatch();
 
   useEffect(() => {

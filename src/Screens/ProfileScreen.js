@@ -9,6 +9,7 @@ import {
   FlatList,
   StyleSheet,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import { useSelector, useDispatch } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather, EvilIcons } from "@expo/vector-icons";
@@ -17,7 +18,7 @@ import { postsSelector } from "../redux/posts/postsSelectors";
 import {
   selectUserId,
   selectName,
-  // selectPhoto,
+  selectPhoto,
 } from "../redux/auth/authSelectors";
 // import { styles } from "../Component";
 
@@ -26,11 +27,16 @@ import { onLogOut } from "../hooks/useLogout";
 
 export default function ProfileScreen({ navigation }) {
   const [counter, setCounter] = useState(0);
+  const [ava, setAva] = useState("");
+  const [screenWidth, setScreenWidth] = useState(
+    Dimensions.get("window").width
+  );
   const userId = useSelector(selectUserId);
   const userName = useSelector(selectName);
-  // const userPhoto = useSelector(selectPhoto);
+  const userPhoto = useSelector(selectPhoto);
   const posts = useSelector(postsSelector);
   const dispatch = useDispatch();
+  // console.log("userPhoto", userPhoto);
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
@@ -58,6 +64,23 @@ export default function ProfileScreen({ navigation }) {
     }
   };
 
+  const onPress = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      canceled: false,
+    });
+
+    if (!result.canceled) {
+      setAva((prevState) => ({
+        ...prevState,
+        avatar: result.assets[0].uri,
+      }));
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -76,22 +99,29 @@ export default function ProfileScreen({ navigation }) {
             />
           </View>
           <Text style={styles.userName}>{userName}</Text>
-          <View style={styles.avatar}>
-            {/* <Image source={{ uri: userPhoto }} style={styles.avatar} /> */}
+          <View style={styles.avatarBox}>
+            <Image source={{ uri: userPhoto }} style={styles.avatar} />
             <TouchableOpacity
               style={styles.avatarBtn}
               activeOpacity={0.7}
               accessibilityLabel="add avatar"
             >
               <View style={{ backgroundColor: "#fff", borderRadius: 50 }}>
-                {/* {!userPhoto ? */}
-                {/* ( */}
-                <AntDesign name="pluscircleo" size={24} color="#FF6C00" />
-                {/* ) :
-                  (
-                  <AntDesign name="closecircleo" size={24} color="#BDBDBD" />
-                  )
-                } */}
+                {!userPhoto ? (
+                  <AntDesign
+                    name="pluscircleo"
+                    size={24}
+                    color="#FF6C00"
+                    onPress={onPress}
+                  />
+                ) : (
+                  <AntDesign
+                    name="closecircleo"
+                    size={24}
+                    color="#BDBDBD"
+                    onPress={onPress}
+                  />
+                )}
               </View>
             </TouchableOpacity>
           </View>
@@ -188,7 +218,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 130,
   },
-  avatar: {
+  avatarBox: {
     position: "absolute",
     right: "55%",
     top: 0,
@@ -196,6 +226,11 @@ export const styles = StyleSheet.create({
     width: 120,
     height: 120,
     backgroundColor: "#f6f6f6",
+    borderRadius: 16,
+  },
+  avatar: {
+    width: 120,
+    height: 120,
     borderRadius: 16,
   },
   avatarBtn: {
