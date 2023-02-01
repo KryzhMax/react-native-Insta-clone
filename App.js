@@ -1,10 +1,16 @@
-import React, { /*useState, useEffect,*/ useCallback } from "react";
-import { useFonts } from "expo-font";
+import { LogBox, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useCallback } from "react";
+import { Provider } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
-import { NavigationContainer } from "@react-navigation/native";
-import useRoute from "./src/hooks/useRoute";
+import { useFonts } from "expo-font";
+import { store } from "./src/redux/store";
+import Routing from "./src/components/Routing";
 
-const routing = useRoute(false);
+// Ignore log notification by message:
+LogBox.ignoreLogs(["Warning: ..."]);
+// Ignore all log notifications:
+LogBox.ignoreAllLogs();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,9 +27,14 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+
   return (
-    <NavigationContainer onLayout={onLayoutRootView}>
-      {routing}
-    </NavigationContainer>
+    // <GestureHandlerRootView>
+    <Provider store={store}>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <Routing />
+      </View>
+    </Provider>
+    // </GestureHandlerRootView>
   );
 }

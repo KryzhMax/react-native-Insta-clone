@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableHighlight, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import Svg, { Path, Circle } from "react-native-svg";
 
 const COLORS = {
@@ -14,9 +14,9 @@ const lineProps = {
   strokeLineJoin: "round",
 };
 
-export default function AddButton({ size /*onPress*/ }) {
+export default function AddButton({ size, onPress }) {
   return (
-    <TouchableHighlight /*onPress={onPress}*/>
+    <TouchableOpacity style={{ marginBottom: 14 }} onPress={onPress}>
       <View style={{ width: size, height: size }}>
         <Svg
           width={size}
@@ -34,6 +34,6 @@ export default function AddButton({ size /*onPress*/ }) {
           />
         </Svg>
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 }

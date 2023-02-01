@@ -54,7 +54,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
             <View
               style={{
                 ...styles.icons,
-                backgroundColor: isFocused ? "tomato" : "white",
+                backgroundColor: isFocused ? "tomato" : "#fff",
                 shadowOffset: isFocused
                   ? {
                       width: 2,
@@ -69,13 +69,10 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
               }}
             >
               <Feather
-                style={{ color: isFocused ? "#fff" : "rgba(0,0,0, 0.8" }}
+                style={{ color: isFocused ? "#fff" : "#000" }}
                 name={options.iconName}
                 size={24}
               />
-              {/* <Text style={{ color: isFocused ? "#673ab7" : "#222" }}>
-              {label}
-            </Text> */}
             </View>
           </TouchableOpacity>
         );

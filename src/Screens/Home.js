@@ -7,23 +7,17 @@ import ProfileScreen from "./ProfileScreen";
 import CustomTabBar from "../common/CustomTabBar";
 import NestedScreen from "./NestedScreen";
 import { styles } from "../Component";
-// import PostsScreen from "./PostsScreen";
-// import MapScreen from "./MapScreen";
+import { onLogOut } from "../hooks/useLogout";
 
 const Tabs = createBottomTabNavigator();
 
-export default function Home(
-  {
-    /*navigation*/
-  }
-) {
+export default function Home({ navigation }) {
   return (
     <Tabs.Navigator
       tabBar={(props) => <CustomTabBar {...props} />}
       initialRouteName="ProfileScreen"
       screenOptions={{
-        tabBarActiveTintColor: "white",
-        tabBarInactiveTintColor: "gray",
+        // headerShown: false,
         tabBarStyle: [
           {
             display: "flex",
@@ -34,7 +28,6 @@ export default function Home(
     >
       <Tabs.Screen
         name="NestedScreen"
-        // component={PostsScreen}
         component={NestedScreen}
         options={({ route }) => {
           const activeRoute = getFocusedRouteNameFromRoute(route);
@@ -45,7 +38,7 @@ export default function Home(
             headerStyle: { ...styles.headerStyle },
             headerRight: () => (
               <Feather
-                onPress={() => alert("Imagine you've logged out!")}
+                onPress={onLogOut}
                 name="log-out"
                 size={24}
                 color="#BDBDBD"
@@ -66,6 +59,18 @@ export default function Home(
           title: "Create post",
           iconName: "plus",
           headerStyle: { ...styles.headerStyle },
+          tabBarStyle: { display: "none" },
+          headerLeft: () => (
+            <Feather
+              name="arrow-left"
+              color="#BDBDBD"
+              size={24}
+              style={{ marginLeft: 16 }}
+              onPress={() => {
+                navigation.navigate("NestedScreen", { screen: "PostsScreen" });
+              }}
+            />
+          ),
         }}
       />
       <Tabs.Screen

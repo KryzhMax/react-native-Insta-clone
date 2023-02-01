@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Text,
   View,
@@ -8,16 +9,20 @@ import {
   Alert,
   Keyboard,
   TextInput,
-  Dimensions,
+  // Dimensions,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from "react-native";
 import { Camera, CameraType } from "expo-camera";
-import * as MediaLibrary from "expo-media-library";
+// import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+// import { uploadPhotoToServer } from "../firebase/uploadPhoto";
 import { createPostInitState, createPostInputs } from "./variables";
+import { selectUserId } from "../redux/auth/authSelectors";
+// import { uploadCommentToServer } from "../firebase/firestore";
+import { uploadDataToServer } from "../redux/posts/postsOperations";
 import { styles } from "../Component";
 
 export default function CreatePostsScreen({ navigation }) {
@@ -30,6 +35,8 @@ export default function CreatePostsScreen({ navigation }) {
   const [state, setState] = useState(createPostInitState);
   const [location, setLocation] = useState({});
 
+  const userIdRef = useSelector(selectUserId);
+  const dispatch = useDispatch();
   //   const [screenWidth, setScreenWidth] = useState(
   //     Dimensions.get("window").width
   //   );
@@ -108,19 +115,25 @@ export default function CreatePostsScreen({ navigation }) {
       const { uri } = await camera.takePictureAsync();
       setPhoto(uri);
       getLocation();
-
-      //   setTimeout(() => {
-      //     const asset = MediaLibrary.createAssetAsync(uri);
-      //   }, 2000);
     }
   };
 
   const onPost = () => {
     if (state.name && state.location && photo) {
       setIsDisabled(true);
+
+      const post = {
+        title: state.name,
+        location: state.location,
+        photo: photo,
+        userId: userIdRef,
+        // id: userIdRef,
+      };
+
+      dispatch(uploadDataToServer(post));
+
       navigation.navigate("NestedScreen", {
         screen: "PostsScreen",
-        params: { photo, state },
       });
     } else {
       Alert.alert("Credentials", "Please fill out all fields to make a post!");
@@ -138,7 +151,6 @@ export default function CreatePostsScreen({ navigation }) {
           <Camera
             style={styles.camera}
             type={type}
-            // zoom={0}
             ref={(ref) => {
               setCamera(ref);
             }}
@@ -210,13 +222,11 @@ export default function CreatePostsScreen({ navigation }) {
             <TouchableOpacity
               activeOpacity={0.8}
               style={{
-                ...styles.btn,
+                ...styles.publishBtn,
                 marginTop: 16,
                 backgroundColor: isDisabled ? "#F6F6F6" : "#FF6C00",
               }}
               onPress={onPost}
-              //   disabled={!state.name && !state.location && true}
-              //   --------Try this ---------
               disabled={isDisabled}
             >
               <Text

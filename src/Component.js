@@ -50,10 +50,25 @@ export const styles = StyleSheet.create({
     width: 330,
     padding: 25,
   },
+  avatarBoxReg: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginTop: -80,
+    marginBottom: 32,
+    marginHorizontal: "auto",
+  },
+  avatarReg: {
+    width: 120,
+    height: 120,
+    bottom: -45,
+    left: 60,
+    transform: [{ translateX: -45 }, { translateY: -45 }],
+    backgroundColor: "#F6F6F6",
+    borderRadius: 16,
+  },
   avatarBox: {
     flexDirection: "row",
     alignItems: "flex-end",
-
     marginTop: -60,
     marginBottom: 32,
     marginHorizontal: "auto",
@@ -82,11 +97,20 @@ export const styles = StyleSheet.create({
   btn: {
     justifyContent: "center",
     alignItems: "center",
-    // width: "100%",
+    width: "100%",
     marginHorizontal: 16,
     paddingHorizontal: 32,
     paddingVertical: 16,
-    // backgroundColor: "#FF6C00",
+    backgroundColor: "#FF6C00",
+    borderRadius: 100,
+    marginBottom: 16,
+  },
+  publishBtn: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 16,
+    paddingHorizontal: 32,
+    paddingVertical: 16,
     borderRadius: 100,
     marginBottom: 16,
   },
@@ -104,6 +128,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 18,
     marginBottom: 45,
+    color: "#1B4371",
   },
   linkText: {
     color: "tomato",
@@ -282,6 +307,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   postImg: {
+    resizeMode: "cover",
     width: 343,
     height: 240,
     marginBottom: 8,
@@ -326,6 +352,3 @@ export const styles = StyleSheet.create({
     bottom: 13,
   },
 });
-
-// 1. Добавить логику на валидацию, разобраться с бокс шедоу, написать логику на показ пароля + тени на андроиде в таббаре
-// 2. Написать логику на проверку пароля/имейла по базе данных

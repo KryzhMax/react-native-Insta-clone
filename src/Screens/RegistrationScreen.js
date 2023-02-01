@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createRef } from "react";
 import {
   Dimensions,
   View,
@@ -12,12 +12,20 @@ import {
   Alert,
   ImageBackground,
   Image,
-  //   Pressable,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import * as ImagePicker from "expo-image-picker";
+import { authRegisterUser } from "../redux/auth/authOperations";
 // import DropShadow from "react-native-drop-shadow";
 import { styles } from "../Component";
 import AddButton from "../utils/Button";
-import { background, registrationInputs, regInitState } from "./variables";
+import {
+  background,
+  registrationInputs,
+  regInitState,
+  switchToNextInput,
+} from "./variables";
 
 export default function Registration({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
@@ -25,11 +33,13 @@ export default function Registration({ navigation }) {
     Dimensions.get("window").width
   );
   const [inputFocus, setInputFocus] = useState(false);
-  const [shadowOffsetWidth, setShadowOffsetWidth] = useState(0);
+  const [shadowOffsetWidth, setShadowOffsetWidth] = useState(null);
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(4);
   const [shadowRadius, setShadowRadius] = useState(4);
   const [shadowOpacity, setShadowOpacity] = useState(0.25);
   const [state, setState] = useState(regInitState);
+  const [isPassword, setIsPassword] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const onChange = () => {
@@ -49,23 +59,51 @@ export default function Registration({ navigation }) {
     Keyboard.dismiss();
   };
 
+  const refInputEmail = createRef();
+  const refInputPassword = createRef();
+
+  const switchPassword = () => {
+    setIsPassword(!isPassword);
+  };
+
   const onInputFocus = () => {
     setIsShowKeyboard(true);
   };
 
+  const onPress = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      canceled: false,
+    });
+
+    if (!result.canceled) {
+      setState((prevState) => ({
+        ...prevState,
+        avatar: result.assets[0].uri,
+      }));
+    }
+  };
+
   const onRegister = () => {
-    // Alert.alert(
-    //   "Credentials",
-    //   `${state.name} + ${state.email} + ${state.password}`
-    // );
     setIsShowKeyboard(false);
     Keyboard.dismiss();
+
+    dispatch(authRegisterUser(state));
     setState(regInitState);
 
-    if (state.name && state.email && state.password) {
+    const validEmail = state.email.match(/\S+@\S+\.\S+/);
+    const validPass = state.password.length >= 6;
+
+    if (state.name && validEmail && validPass && state.avatar) {
       navigation.navigate("Home");
     } else {
-      Alert.alert("Credentials", "Please fill out all fields!");
+      Alert.alert(
+        "Credentials: ",
+        "Password should be min 6 symbols and email should be valid"
+      );
     }
   };
 
@@ -82,40 +120,80 @@ export default function Registration({ navigation }) {
               }}
             >
               <View style={styles.box}>
-                <View style={styles.avatarBox}>
-                  <Image style={styles.avatar} />
-                  <AddButton style={styles.addBtn} size={25} />
+                <View style={styles.avatarBoxReg}>
+                  <Image
+                    style={styles.avatarReg}
+                    source={{ uri: state.avatar }}
+                  />
+                  <AddButton
+                    onPress={onPress}
+                    style={styles.addBtn}
+                    size={25}
+                  />
                 </View>
                 <View style={styles.formHeaderContainer}>
                   <Text style={styles.formHeaderText}>Registration</Text>
                 </View>
                 {registrationInputs.map(
                   ({ type, name, placeholderTextColor, placeholder }) => (
-                    <TextInput
-                      key={type}
-                      placeholder={placeholder}
-                      placeholderTextColor={placeholderTextColor}
-                      value={state[name]}
-                      secureTextEntry={type === "password" ? true : false}
-                      onChangeText={(val) =>
-                        setState((prevState) => ({
-                          ...prevState,
-                          [name]: val,
-                        }))
-                      }
-                      onFocus={onInputFocus}
-                      style={[
-                        styles.input,
-                        {
-                          shadowOffset: {
-                            width: shadowOffsetWidth,
-                            height: shadowOffsetHeight,
+                    <View>
+                      <TextInput
+                        key={type}
+                        placeholder={placeholder}
+                        placeholderTextColor={placeholderTextColor}
+                        value={state[name]}
+                        secureTextEntry={
+                          type === "password" ? isPassword : false
+                        }
+                        onChangeText={(val) =>
+                          setState((prevState) => ({
+                            ...prevState,
+                            [name]: val.toLowerCase(),
+                          }))
+                        }
+                        onSubmitEditing={() =>
+                          type === "name"
+                            ? switchToNextInput(refInputEmail)
+                            : type === "email"
+                            ? switchToNextInput(refInputPassword)
+                            : onRegister
+                        }
+                        onFocus={() => onInputFocus()}
+                        ref={
+                          type === "name"
+                            ? null
+                            : type === "email"
+                            ? refInputEmail
+                            : type === "password"
+                            ? refInputPassword
+                            : null
+                        }
+                        style={[
+                          styles.input,
+                          {
+                            shadowOffset: {
+                              width: shadowOffsetWidth,
+                              height: shadowOffsetHeight,
+                            },
+                            shadowOpacity,
+                            shadowRadius,
                           },
-                          shadowOpacity,
-                          shadowRadius,
-                        },
-                      ]}
-                    />
+                        ]}
+                      />
+                      {type === "password" && (
+                        <Ionicons
+                          style={{ position: "absolute", top: 8, right: 10 }}
+                          name={
+                            isPassword
+                              ? "ios-eye-outline"
+                              : "ios-eye-off-outline"
+                          }
+                          size={24}
+                          color="#bdbdbd"
+                          onPress={() => switchPassword()}
+                        />
+                      )}
+                    </View>
                   )
                 )}
               </View>
