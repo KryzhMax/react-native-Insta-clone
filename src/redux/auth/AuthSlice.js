@@ -12,18 +12,31 @@ const initialState = {
 };
 
 const actions = {
-  updateUserProfile: (state, { payload }) => ({
+  updateUserProfile: (state, { payload }) => {
+    state.userId = payload.userId;
+    state.name = payload.name;
+    state.email = payload.email;
+    state.avatar = payload.avatar;
+    state.isAuth = true;
+
+    // ...state,
+    // userId: payload.userId,
+    // name: payload.name,
+    // email: payload.email,
+    // avatar: payload.avatar,
+    // isAuth: true,
+  },
+  updateAvatar: (state, { payload }) => ({
     ...state,
-    userId: payload.userId,
-    name: payload.name,
-    email: payload.email,
     avatar: payload.avatar,
-    isAuth: true,
   }),
-  authStateChange: (state, { payload }) => ({
-    ...state,
-    isAuth: payload.isAuth,
-  }),
+  authStateChange: (state, { payload }) => {
+    state.userId = payload.userId;
+    state.name = payload.name;
+    state.email = payload.email;
+    state.avatar = payload.avatar;
+    state.isAuth = true;
+  },
   authSignOut: () => initialState,
 };
 

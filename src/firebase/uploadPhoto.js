@@ -1,6 +1,5 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "./config";
-import tempAva from "../assets/img/User.jpg";
 
 export const uploadPhotoToServer = async (photo, path) => {
   const response = await fetch(photo);

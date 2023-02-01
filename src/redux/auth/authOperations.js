@@ -11,7 +11,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { authSlice } from "./AuthSlice";
 import { uploadPhotoToServer } from "../../firebase/uploadPhoto";
 
-const { updateUserProfile, authSignOut, authStateChange } = authSlice.actions;
+const { updateUserProfile, authSignOut, authStateChange, updateAvatar } =
+  authSlice.actions;
 
 export const authSignInUser = createAsyncThunk(
   "auth/login",
@@ -94,7 +95,7 @@ export const onAuthStateChange = createAsyncThunk(
             userId: user.uid,
             email: user.email,
             name: user.displayName,
-            avatar: user.avatar,
+            avatar: user.photoURL,
           };
 
           dispatch(updateUserProfile(userToUpdate));
@@ -113,6 +114,29 @@ export const authSignOutUser = createAsyncThunk(
     try {
       signOut(auth);
       dispatch(authSignOut());
+    } catch (error) {
+      const errorMessage = error.message;
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const onAvatarChange = createAsyncThunk(
+  "auth/onAvatarChange",
+  async ({ avatar }, { rejectWithValue, dispatch }) => {
+    try {
+      // console.log("1111ava", avatar);
+      const photoURL = await uploadPhotoToServer(avatar, "avatar");
+      // console.log("photoURL", photoURL);
+      await updateProfile(auth.currentUser, {
+        photoURL: photoURL,
+      });
+
+      const userToUpdate = {
+        avatar: photoURL,
+      };
+
+      dispatch(updateAvatar(userToUpdate));
     } catch (error) {
       const errorMessage = error.message;
       return rejectWithValue(errorMessage);

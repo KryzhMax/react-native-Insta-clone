@@ -41,23 +41,27 @@ export default function CreatePostsScreen({ navigation }) {
   const [screenWidth, setScreenWidth] = useState(
     Dimensions.get("window").width
   );
-
+  console.log("location", location);
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");
+    })();
+
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+      }
 
       let location = await Location.getCurrentPositionAsync({});
-
       const coords = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
+        latitude: location.coords?.latitude,
+        longitude: location.coords?.longitude,
       };
-
       setLocation(coords);
     })();
 
-    //   ------------------ НЕ УВЕРЕН, что это надо -----------
     const onChange = () => {
       const windowWidth = Dimensions.get("window").width;
       // const windowHeight = Dimensions.get("window").height;
@@ -109,12 +113,13 @@ export default function CreatePostsScreen({ navigation }) {
     };
 
     onChangeText(placePosition, "location");
+    console.log("placePosition", placePosition);
   };
-
   const takePicture = async () => {
     if (camera) {
       const { uri } = await camera.takePictureAsync();
       setPhoto(uri);
+      console.log("uri", uri);
       getLocation();
     }
   };

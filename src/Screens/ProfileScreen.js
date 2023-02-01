@@ -23,10 +23,12 @@ import {
 
 import { getPosts } from "../redux/posts/postsOperations";
 import { onLogOut } from "../hooks/useLogout";
+import { uploadPhotoToServer } from "../firebase/uploadPhoto";
+import { onAvatarChange } from "../redux/auth/authOperations";
 
 export default function ProfileScreen({ navigation }) {
   const [counter, setCounter] = useState(0);
-  const [ava, setAva] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [screenWidth, setScreenWidth] = useState(
     Dimensions.get("window").width
   );
@@ -63,19 +65,21 @@ export default function ProfileScreen({ navigation }) {
   };
 
   const onPress = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
+    let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      canceled: false,
+      // canceled: false,
     });
 
     if (!result.canceled) {
-      setAva((prevState) => ({
-        ...prevState,
-        avatar: result.assets[0].uri,
-      }));
+      // console.log("ava-pre", avatar);
+
+      const post = await result.assets[0].uri;
+      setAvatar(post);
+      // console.log("result", avatar);
+      dispatch(onAvatarChange({ avatar: post }));
     }
   };
 
@@ -98,7 +102,10 @@ export default function ProfileScreen({ navigation }) {
           </View>
           <Text style={styles.userName}>{userName}</Text>
           <View style={styles.avatarBox}>
-            <Image source={{ uri: userPhoto }} style={styles.avatar} />
+            <Image
+              source={{ uri: userPhoto || ava.avatar }}
+              style={styles.avatar}
+            />
             <TouchableOpacity
               style={styles.avatarBtn}
               activeOpacity={0.7}
