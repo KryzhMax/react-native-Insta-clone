@@ -115,10 +115,6 @@ export default function CreatePostsScreen({ navigation }) {
       const { uri } = await camera.takePictureAsync();
       setPhoto(uri);
       getLocation();
-
-      //   setTimeout(() => {
-      //     const asset = MediaLibrary.createAssetAsync(uri);
-      //   }, 2000);
     }
   };
 
@@ -131,14 +127,13 @@ export default function CreatePostsScreen({ navigation }) {
         location: state.location,
         photo: photo,
         userId: userIdRef,
+        // id: userIdRef,
       };
 
       dispatch(uploadDataToServer(post));
 
       navigation.navigate("NestedScreen", {
         screen: "PostsScreen",
-        // Можно будет удалить, поскольку запрос пойдет на базу данных
-        // params: { photo, state },
       });
     } else {
       Alert.alert("Credentials", "Please fill out all fields to make a post!");
@@ -156,7 +151,6 @@ export default function CreatePostsScreen({ navigation }) {
           <Camera
             style={styles.camera}
             type={type}
-            // zoom={0}
             ref={(ref) => {
               setCamera(ref);
             }}

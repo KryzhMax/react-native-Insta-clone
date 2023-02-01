@@ -17,19 +17,16 @@ export const uploadPostToServer = async (post) => {
 
     return docRef.id;
   } catch (error) {
-    console.log("error", error);
     Alert.alert(error.message);
   }
 };
 
 export const updatePost = async (post, comment) => {
-  console.log("updatePost", post);
   try {
     await updateDoc(doc(db, "posts", `${post}`), {
       "post.comments": arrayUnion({ ...comment }),
     });
   } catch (error) {
-    console.log("error", error.message);
     Alert.alert(error.message);
   }
 };

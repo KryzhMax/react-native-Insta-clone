@@ -33,7 +33,6 @@ export default function CommentsScreen({ route }) {
   const postsRef = useSelector(postsSelector);
   const dispatch = useDispatch();
   // const userAvatarRef = selectPhoto(selectPhoto);
-  // console.log("route.params", route.params);
 
   useEffect(() => {
     const { photo, id, userId } = route.params;
@@ -46,8 +45,6 @@ export default function CommentsScreen({ route }) {
 
     dispatch(getAllComments({ postId: id }));
   }, [route.params, dispatch]);
-
-  // console.log("comments", comments);
 
   const onInputFocus = () => {
     setIsShowKeyboard(true);

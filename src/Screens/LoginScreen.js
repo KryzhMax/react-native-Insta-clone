@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createRef } from "react";
 import {
   Dimensions,
   Keyboard,
@@ -11,12 +11,16 @@ import {
   Text,
   Alert,
   ImageBackground,
-  //   Pressable,
 } from "react-native";
 import { useDispatch } from "react-redux";
 // import DropShadow from "react-native-drop-shadow";
 import { authSignInUser } from "../redux/auth/authOperations";
-import { background, registrationInputs, loginInitState } from "./variables";
+import {
+  background,
+  registrationInputs,
+  loginInitState,
+  switchToNextInput,
+} from "./variables";
 import { styles } from "../Component";
 
 export default function Login({ navigation }) {
@@ -25,6 +29,7 @@ export default function Login({ navigation }) {
     Dimensions.get("window").width
   );
   const [inputFocus, setInputFocus] = useState(false);
+  const [isPassword, setIsPassword] = useState(true);
 
   const [shadowOffsetWidth, setShadowOffsetWidth] = useState(0);
   const [shadowOffsetHeight, setShadowOffsetHeight] = useState(4);
@@ -52,6 +57,9 @@ export default function Login({ navigation }) {
     Keyboard.dismiss();
   };
 
+  const refInputEmail = createRef();
+  const refInputPassword = createRef();
+
   const onInputFocus = () => {
     setIsShowKeyboard(true);
   };
@@ -60,7 +68,7 @@ export default function Login({ navigation }) {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     dispatch(authSignInUser(state));
-    // setState(loginInitState);
+    setState(loginInitState);
 
     if (state.email && state.password) {
       navigation.navigate("Home");
@@ -93,14 +101,20 @@ export default function Login({ navigation }) {
                       placeholder={placeholder}
                       placeholderTextColor={placeholderTextColor}
                       value={state[name]}
-                      secureTextEntry={type === "password" ? true : false}
+                      secureTextEntry={type === "password" ? isPassword : false}
                       onChangeText={(val) =>
                         setState((prevState) => ({
                           ...prevState,
                           [name]: val.toLocaleLowerCase(),
                         }))
                       }
-                      onFocus={onInputFocus}
+                      onSubmitEditing={() =>
+                        type === "email"
+                          ? switchToNextInput(refInputPassword)
+                          : onLogin
+                      }
+                      onFocus={() => onInputFocus()}
+                      ref={type === "email" ? refInputEmail : refInputPassword}
                       style={[
                         styles.input,
                         {

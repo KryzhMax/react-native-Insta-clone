@@ -5,11 +5,11 @@ import { styles } from "../Component";
 
 const MapScreen = ({ route }) => {
   const [location, setLocation] = useState(null);
-  const { place, latitude, longitude } = route.params.params;
+  const { place, latitude, longitude } = route.params;
 
   useEffect(() => {
     if (route.params) {
-      setLocation(route.params.params);
+      setLocation(route.params);
     }
   }, [route.params]);
 

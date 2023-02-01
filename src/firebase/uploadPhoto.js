@@ -2,6 +2,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "./config";
 
 export const uploadPhotoToServer = async (photo, path) => {
+  // console.log("photo", photo);
   const response = await fetch(photo);
   const file = await response.blob();
   const uniqueId = Date.now().toString();

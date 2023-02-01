@@ -17,8 +17,7 @@ export default function Home({ navigation }) {
       tabBar={(props) => <CustomTabBar {...props} />}
       initialRouteName="ProfileScreen"
       screenOptions={{
-        // tabBarActiveTintColor: "white",
-        // tabBarInactiveTintColor: "gray",
+        // headerShown: false,
         tabBarStyle: [
           {
             display: "flex",

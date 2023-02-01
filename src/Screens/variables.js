@@ -4,6 +4,7 @@ export const regInitState = {
   name: "",
   email: "",
   password: "",
+  avatar: null,
 };
 
 export const loginInitState = {
@@ -49,3 +50,7 @@ export const registrationInputs = [
     placeholderTextColor: "#BDBDBD",
   },
 ];
+
+export const switchToNextInput = (ref) => {
+  ref.current.focus();
+};

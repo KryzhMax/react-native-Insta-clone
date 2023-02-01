@@ -1,4 +1,4 @@
-import { useState, useEffect, Component } from "react";
+import { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -7,10 +7,11 @@ import {
   TouchableOpacity,
   Dimensions,
   FlatList,
+  StyleSheet,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
-import { Feather, EvilIcons, FontAwesome5 } from "@expo/vector-icons";
+import { Feather, EvilIcons } from "@expo/vector-icons";
 
 import { postsSelector } from "../redux/posts/postsSelectors";
 import {
@@ -18,31 +19,43 @@ import {
   selectName,
   // selectPhoto,
 } from "../redux/auth/authSelectors";
-import { styles } from "../Component";
+// import { styles } from "../Component";
+
+import { getPosts } from "../redux/posts/postsOperations";
 import { onLogOut } from "../hooks/useLogout";
 
 export default function ProfileScreen({ navigation }) {
+  const [counter, setCounter] = useState(0);
   const userId = useSelector(selectUserId);
   const userName = useSelector(selectName);
   // const userPhoto = useSelector(selectPhoto);
   const posts = useSelector(postsSelector);
-
-  const [windowWidth, setWindowWidth] = useState(
-    Dimensions.get("window").width
-  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const onChange = () => {
-      const width = Dimensions.get("window").width;
-      setWindowWidth(width);
-    };
-    const dimensionsHandler = Dimensions.addEventListener("change", onChange);
+    navigation.setOptions({ headerShown: false });
+    dispatch(getPosts());
 
-    return () => dimensionsHandler.remove();
+    const onChange = () => {
+      const windowWidth = Dimensions.get("window").width;
+      setScreenWidth(windowWidth);
+    };
+    const subscription = Dimensions.addEventListener("change", onChange);
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   const getOwnerPosts = () => {
-    return posts.filter((post) => post.id === userId);
+    return posts.filter((post) => post.userId === userId);
+  };
+
+  const onLikeBtn = () => {
+    if (counter > 0) {
+      setCounter((count) => count - 1);
+    } else {
+      setCounter((count) => count + 1);
+    }
   };
 
   return (
@@ -50,10 +63,10 @@ export default function ProfileScreen({ navigation }) {
       <ImageBackground
         source={require("../assets/img/background.jpeg")}
         resizeMode="cover"
-        style={styles.image}
+        style={styles.profileImage}
       >
-        <View style={styles.postItemContainer}>
-          <View /*style={styles.logout}*/>
+        <View style={styles.postsContainer}>
+          <View>
             <Feather
               onPress={onLogOut}
               name="log-out"
@@ -62,21 +75,23 @@ export default function ProfileScreen({ navigation }) {
               style={styles.logout}
             />
           </View>
-          <Text style={styles.avatarPrimaryText}>{userName}</Text>
-          <View style={styles.avatarBox}>
+          <Text style={styles.userName}>{userName}</Text>
+          <View style={styles.avatar}>
             {/* <Image source={{ uri: userPhoto }} style={styles.avatar} /> */}
-            {/* -------------переиспользовать AddButton------------- */}
             <TouchableOpacity
-              style={styles.addBtn}
+              style={styles.avatarBtn}
               activeOpacity={0.7}
               accessibilityLabel="add avatar"
             >
-              <View style={{ backgroundColor: "#FFFFFF", borderRadius: 50 }}>
-                {!userPhoto ? (
-                  <AntDesign name="pluscircleo" size={24} color="#FF6C00" />
-                ) : (
+              <View style={{ backgroundColor: "#fff", borderRadius: 50 }}>
+                {/* {!userPhoto ? */}
+                {/* ( */}
+                <AntDesign name="pluscircleo" size={24} color="#FF6C00" />
+                {/* ) :
+                  (
                   <AntDesign name="closecircleo" size={24} color="#BDBDBD" />
-                )}
+                  )
+                } */}
               </View>
             </TouchableOpacity>
           </View>
@@ -86,65 +101,62 @@ export default function ProfileScreen({ navigation }) {
             renderItem={({ item }) => (
               <View
                 style={{
+                  backgroundColor: "#fff",
                   marginBottom: 20,
                 }}
               >
                 <Image
                   source={{ uri: item.photo }}
                   style={{
-                    ...styles.postImg,
-                    // width: windowWidth - 16 * 2,
+                    ...styles.photo,
                   }}
                 />
-                <Text style={styles.postTitle}>{item.title}</Text>
-                <View style={styles.linksContainer}>
-                  <View /*style={styles.wrap}*/>
+                <Text style={styles.photoTitle}>{item.title}</Text>
+                <View style={styles.navigationContainer}>
+                  <View style={styles.wrapper}>
                     <TouchableOpacity
-                      // style={styles.link}
+                      style={styles.navLink}
                       activeOpacity={0.7}
                       onPress={() => {
-                        navigation.navigate("CommentsScreen", {
-                          photo: item.photo,
-                          id: item.id,
+                        navigation.navigate("NestedScreen", {
+                          screen: "CommentsScreen",
+                          params: {
+                            photo: item.photo,
+                            id: item.id,
+                          },
                         });
                       }}
                     >
-                      <FontAwesome5
-                        name="comment-dots"
-                        size={25}
-                        color="#FF6C00"
-                      />
-                      <Text style={{ ...styles.counter, marginLeft: 6 }}>
+                      <Feather name="message-circle" size={22} color="tomato" />
+                      <Text style={{ ...styles.count, marginLeft: 6 }}>
                         {item.comments.length}
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      // style={{ ...styles.link, marginLeft: 25 }}
+                      style={{ ...styles.navLink, marginLeft: 25 }}
                       activeOpacity={0.7}
-                      onPress={() => {
-                        console.log("like");
-                      }}
+                      onPress={onLikeBtn}
                     >
-                      <EvilIcons name="like" size={35} color="#FF6C00" />
-                      <Text style={styles.counter}>0</Text>
+                      <EvilIcons name="like" size={32} color="#FF6C00" />
+                      <Text style={styles.count}>{counter}</Text>
                     </TouchableOpacity>
                   </View>
                   <TouchableOpacity
-                    // style={styles.link}
+                    style={styles.navLink}
                     activeOpacity={0.7}
-                    onPress={() => {
-                      navigation.navigate("MapScreen", {
+                    onPress={() =>
+                      navigation.navigate("NestedScreen", {
                         screen: "MapScreen",
                         params: {
                           latitude: item.location.latitude,
                           longitude: item.location.longitude,
                           place: item.location.place,
                         },
-                      });
-                    }}
+                      })
+                    }
                   >
-                    <Feather name="map-pin" size={18} color="#BDBDBD" />
-                    <Text style={styles.postLocation}>
+                    <Feather name="map-pin" size={18} color="#bdbdbd" />
+                    <Text style={styles.locationPlace}>
                       {item.location.place}
                     </Text>
                   </TouchableOpacity>
@@ -157,3 +169,91 @@ export default function ProfileScreen({ navigation }) {
     </View>
   );
 }
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  profileImage: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "flex-end",
+  },
+  postsContainer: {
+    justifyContent: "flex-end",
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    paddingTop: 75,
+    paddingHorizontal: 16,
+    marginTop: 130,
+  },
+  avatar: {
+    position: "absolute",
+    right: "55%",
+    top: 0,
+    transform: [{ translateX: 60 }, { translateY: -60 }],
+    width: 120,
+    height: 120,
+    backgroundColor: "#f6f6f6",
+    borderRadius: 16,
+  },
+  avatarBtn: {
+    position: "absolute",
+    bottom: 15,
+    left: 105,
+    width: 25,
+    height: 25,
+  },
+  userName: {
+    fontSize: 30,
+    fontFamily: "Roboto-Reg",
+    textAlign: "center",
+    color: "#212121",
+    marginBottom: 26,
+  },
+  logout: {
+    position: "absolute",
+    top: -55,
+    right: 16,
+  },
+  photo: {
+    height: 240,
+    marginBottom: 8,
+    borderRadius: 8,
+  },
+  photoTitle: {
+    fontFamily: "Roboto-Reg",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#212121",
+    marginBottom: 8,
+    marginTop: 8,
+  },
+  navigationContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  wrapper: {
+    flexDirection: "row",
+  },
+  navLink: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  count: {
+    fontFamily: "Roboto-Reg",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#212121",
+  },
+  locationPlace: {
+    fontFamily: "Roboto-Reg",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#212121",
+    textDecorationLine: "underline",
+    marginLeft: 3,
+  },
+});

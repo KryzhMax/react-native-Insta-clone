@@ -10,7 +10,11 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { postsSelector } from "../redux/posts/postsSelectors";
-import { selectName, selectEmail } from "../redux/auth/authSelectors";
+import {
+  selectName,
+  selectEmail,
+  selectPhoto,
+} from "../redux/auth/authSelectors";
 import { getPosts } from "../redux/posts/postsOperations";
 import { styles } from "../Component";
 
@@ -18,7 +22,8 @@ export default function PostsScreen({ navigation }) {
   const postsRef = useSelector(postsSelector);
   const userNameRef = useSelector(selectName);
   const userEmailRef = useSelector(selectEmail);
-  // console.log("postsRef", postsRef);
+  const userPhotoRef = useSelector(selectPhoto);
+  // console.log("userPhotoRef", userPhotoRef);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,10 +33,7 @@ export default function PostsScreen({ navigation }) {
   return (
     <>
       <View style={styles.avatarBox}>
-        <Image
-          style={styles.avatar}
-          source={require("../../src/assets/img/User.jpg")}
-        />
+        <Image style={styles.avatar} source={{ uri: userPhotoRef }} />
         <View style={{ marginLeft: 8 }}>
           <Text style={styles.avatarPrimaryText}>{userNameRef}</Text>
           <Text style={styles.avatarSecondaryText}>{userEmailRef}</Text>
@@ -63,7 +65,9 @@ export default function PostsScreen({ navigation }) {
                         color="#bdbdbd"
                       />
                       {"  "}
-                      <Text style={{ ...styles.counter }}>0</Text>
+                      <Text style={{ ...styles.counter }}>
+                        {item.comments.length}
+                      </Text>
                     </Text>
                   </TouchableOpacity>
                 </Text>
@@ -72,12 +76,9 @@ export default function PostsScreen({ navigation }) {
                   <TouchableOpacity
                     onPress={() =>
                       navigation.navigate("MapScreen", {
-                        screen: "MapScreen",
-                        params: {
-                          latitude: item.location.latitude,
-                          longitude: item.location.longitude,
-                          place: item.location.place,
-                        },
+                        latitude: item.location.latitude,
+                        longitude: item.location.longitude,
+                        place: item.location.place,
                       })
                     }
                   >

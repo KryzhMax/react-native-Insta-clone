@@ -5,28 +5,26 @@ import {
   updateProfile,
   signOut,
 } from "firebase/auth";
+import gravatar from "gravatar";
 import { auth } from "../../firebase/config";
 import { Alert } from "react-native";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-// import { store } from "../store";
 import { authSlice } from "./AuthSlice";
 import { uploadPhotoToServer } from "../../firebase/uploadPhoto";
-import { uploadPostToServer } from "../../firebase/firestore";
 
-const { updateUserProfile, authSignOut } = authSlice.actions;
+const { updateUserProfile, authSignOut, authStateChange } = authSlice.actions;
 
 export const authSignInUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue, dispatch }) => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
-
       const userToUpdate = {
         userId: user.uid,
         email: user.email,
         name: user.displayName,
+        avatar: user.photoURL,
       };
-
       dispatch(updateUserProfile(userToUpdate));
     } catch (error) {
       const errorMessage = error.message;
@@ -46,7 +44,8 @@ export const authSignInUser = createAsyncThunk(
 
 export const authRegisterUser = createAsyncThunk(
   "auth/register",
-  async ({ name, email, password }, { rejectWithValue, dispatch }) => {
+  async ({ name, email, password, avatar }, { rejectWithValue, dispatch }) => {
+    let photoURL;
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
@@ -54,18 +53,26 @@ export const authRegisterUser = createAsyncThunk(
         password
       );
 
+      if (!avatar) {
+        photoURL = gravatar.url(email, { protocol: "http", s: "120" });
+      } else {
+        photoURL = await uploadPhotoToServer(avatar, "avatar");
+      }
+
+      // const userAvatarUrl = await uploadPhotoToServer({ avatar }, "avatars");
+
       await updateProfile(auth.currentUser, {
         displayName: name,
-        email: email,
-        // photoURL: userAvatarUrl,
+        // email: email,
+        avatar: photoURL,
       });
 
       const userToUpdate = {
         userId: user.uid,
         email: user.email,
         name: user.displayName,
+        avatar: user.photoURL,
       };
-
       dispatch(updateUserProfile(userToUpdate));
     } catch (error) {
       const errorMessage = error.message;
@@ -75,6 +82,7 @@ export const authRegisterUser = createAsyncThunk(
       } else {
         Alert.alert("Something went wrong, try to reload the app");
       }
+      dispatch(authStateChange(false));
       return rejectWithValue(errorMessage);
     }
   }
@@ -90,6 +98,7 @@ export const onAuthStateChange = createAsyncThunk(
             userId: user.uid,
             email: user.email,
             name: user.displayName,
+            avatar: user.avatar,
           };
 
           dispatch(updateUserProfile(userToUpdate));
@@ -114,21 +123,3 @@ export const authSignOutUser = createAsyncThunk(
     }
   }
 );
-
-// // -----Also working code, but without Thunks-------
-// export const authRegisterUser = async ({ email, password }) => {
-//   await createUserWithEmailAndPassword(auth, email, password)
-//     .then((userCredential) => {
-//       // Signed in
-//       const user = userCredential.user;
-//       console.log("user11111", user);
-
-//       // ...
-//     })
-//     .catch((error) => {
-//       const errorCode = error.code;
-//       const errorMessage = error.message;
-//       Alert.alert(error.message);
-//       // ..
-//     });
-// };

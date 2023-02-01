@@ -2,6 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<key>NSAppTransportSecurity</key>
+<key>NSAllowsArbitraryLoads</key>
+<true/>
 	<key>CLIENT_ID</key>
 	<string>420539286620-cfhk11hsn0ttjlv8sotu9ln6fi3oejg3.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>

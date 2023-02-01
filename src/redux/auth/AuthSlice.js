@@ -17,14 +17,13 @@ const actions = {
     userId: payload.userId,
     name: payload.name,
     email: payload.email,
+    avatar: payload.avatar,
     isAuth: true,
   }),
-  // authStateChange: (state, { payload }) => ({
-  //   ...state,
-  //   isAuth: payload.isAuth,
-  //   email: payload.email,
-  //   name: payload.name,
-  // }),
+  authStateChange: (state, { payload }) => ({
+    ...state,
+    isAuth: payload.isAuth,
+  }),
   authSignOut: () => initialState,
 };
 
