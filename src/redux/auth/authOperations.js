@@ -19,6 +19,7 @@ export const authSignInUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue, dispatch }) => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
+      console.log("authSignInUser-user", user);
       const userToUpdate = {
         userId: user.uid,
         email: user.email,
@@ -45,7 +46,7 @@ export const authSignInUser = createAsyncThunk(
 export const authRegisterUser = createAsyncThunk(
   "auth/register",
   async ({ name, email, password, avatar }, { rejectWithValue, dispatch }) => {
-    let photoURL;
+    console.log("authRegisterUser-name", name);
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
@@ -53,27 +54,32 @@ export const authRegisterUser = createAsyncThunk(
         password
       );
 
-      if (!avatar) {
-        photoURL = gravatar.url(email, { protocol: "http", s: "120" });
-      } else {
-        photoURL = await uploadPhotoToServer(avatar, "avatar");
-      }
+      // if (!avatar) {
+      //   photoURL = gravatar.url(email, { protocol: "http", s: "120" });
+      // } else {
+      const photoURL = avatar
+        ? await uploadPhotoToServer(avatar, "avatar")
+        : await uploadPhotoToServer(
+            require("../../assets/img/User.jpg"),
+            "avatar"
+          );
+      console.log("photoURL", photoURL);
+      // }
 
       // const userAvatarUrl = await uploadPhotoToServer({ avatar }, "avatars");
-
       await updateProfile(auth.currentUser, {
         displayName: name,
-        // email: email,
-        avatar: photoURL,
+        photoURL: photoURL,
       });
 
       const userToUpdate = {
         userId: user.uid,
         email: user.email,
         name: user.displayName,
-        avatar: user.photoURL,
+        avatar: photoURL,
       };
       dispatch(updateUserProfile(userToUpdate));
+      console.log("user-afterUpdate", user);
     } catch (error) {
       const errorMessage = error.message;
 

@@ -20,8 +20,6 @@ import { addComments, getAllComments } from "../redux/posts/postsOperations";
 import { styles } from "../Component";
 import { postsSelector } from "../redux/posts/postsSelectors";
 
-const avatar = require("../assets/img/User.jpg");
-
 export default function CommentsScreen({ route }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
@@ -32,11 +30,12 @@ export default function CommentsScreen({ route }) {
   const userNameRef = useSelector(selectName);
   const postsRef = useSelector(postsSelector);
   const dispatch = useDispatch();
-  // const userAvatarRef = selectPhoto(selectPhoto);
+  const userAvatarRef = useSelector(selectPhoto);
+  console.log("CommentsScreen-userAvatarRef", userAvatarRef);
 
   useEffect(() => {
     const { photo, id, userId } = route.params;
-
+    console.log("route.params", route.params);
     if (route.params) {
       const post = postsRef.find((post) => post.id === route.params.id);
       setPost({ photo: photo, postId: id, userId: userId });
@@ -45,7 +44,7 @@ export default function CommentsScreen({ route }) {
 
     dispatch(getAllComments({ postId: id }));
   }, [route.params, dispatch]);
-
+  console.log("CommentsScreen", comments);
   const onInputFocus = () => {
     setIsShowKeyboard(true);
     setInputFocus(true);
@@ -92,10 +91,12 @@ export default function CommentsScreen({ route }) {
   const onCommentSend = () => {
     // setComments((prevComments) => [...prevComments, value]);
 
+    // НЕ считывает объект юзер????
     const user = {
       userId: post.userId,
-      userNameRef,
-      // add avatar
+      userNameRef: userNameRef,
+      userUri: userAvatarRef,
+      // userUri,
     };
     if (value) {
       dispatch(addComments({ postId: post.postId, comment: value, user }));
@@ -114,7 +115,7 @@ export default function CommentsScreen({ route }) {
         renderItem={({ item }) => (
           <View style={{ flexDirection: "row" }}>
             <Image
-              source={avatar}
+              source={{ uri: userAvatarRef }}
               style={{ ...styles.avatar, width: 28, height: 28 }}
               onLongPress={onDismiss}
             />
@@ -122,8 +123,8 @@ export default function CommentsScreen({ route }) {
             <View style={styles.commentItemContainer}>
               {/* <TouchableWithoutFeedback onPress={onDismiss}> */}
               <View>
-                <Text style={styles.commentsText}>{item?.comment.comment}</Text>
-                <Text style={styles.commentsDate}>{item.comment.date}</Text>
+                <Text style={styles.commentsText}>{item?.comment}</Text>
+                <Text style={styles.commentsDate}>{item.date}</Text>
               </View>
               {/* </TouchableWithoutFeedback> */}
             </View>
