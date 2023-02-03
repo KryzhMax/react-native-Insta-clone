@@ -130,11 +130,10 @@ export default function CreatePostsScreen({ navigation }) {
         location: state.location,
         photo: photo,
         userId: userIdRef,
-        // avatar: userPhotoRef,
+        date: Date.now(),
       };
 
       dispatch(uploadDataToServer(post));
-
       navigation.navigate("NestedScreen", {
         screen: "PostsScreen",
       });

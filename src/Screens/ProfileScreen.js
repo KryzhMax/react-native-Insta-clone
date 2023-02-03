@@ -264,7 +264,7 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
   },
   photoTitle: {
-    fontFamily: "Roboto-Reg",
+    fontFamily: "Roboto-Bold",
     fontSize: 16,
     lineHeight: 19,
     color: "#212121",

@@ -11,7 +11,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { authSlice } from "./AuthSlice";
 import { uploadPhotoToServer } from "../../firebase/uploadPhoto";
 
-const { updateUserProfile, authSignOut, authStateChange, updateAvatar } =
+const { updateUserProfile, authSignOut, /*authStateChange*/ updateAvatar } =
   authSlice.actions;
 
 export const authSignInUser = createAsyncThunk(
@@ -19,7 +19,6 @@ export const authSignInUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue, dispatch }) => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
-      console.log("user", user);
       const userToUpdate = {
         userId: user.uid,
         email: user.email,

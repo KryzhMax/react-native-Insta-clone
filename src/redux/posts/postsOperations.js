@@ -9,7 +9,7 @@ const { createPost } = postsSlice.actions;
 
 export const uploadDataToServer = createAsyncThunk(
   "posts/uploadPost",
-  async ({ title, location, photo, userId }, { rejectWithValue }) => {
+  async ({ title, location, photo, userId, date }, { rejectWithValue }) => {
     try {
       const photoURL = await uploadPhotoToServer(photo, "postImage");
       const postUploaded = await uploadPostToServer({
@@ -18,6 +18,7 @@ export const uploadDataToServer = createAsyncThunk(
         photo: photoURL,
         userId,
         comments: [],
+        date,
       });
 
       return postUploaded;
@@ -40,9 +41,9 @@ export const getPosts = createAsyncThunk(
             const data = snapshot.data();
             posts.push({ id: snapshot.id, ...data.post });
           });
-          posts.reverse();
+          const sortedPosts = posts.sort((a, b) => b.date - a.date);
 
-          dispatch(createPost(posts));
+          dispatch(createPost(sortedPosts));
         },
         (error) => console.log("snapshot-error", error)
       );
@@ -56,7 +57,6 @@ export const getPosts = createAsyncThunk(
 export const addComments = createAsyncThunk(
   "posts/getComments",
   async ({ postId, comment, user }, { rejectWithValue }) => {
-    console.log("addComments-user", comment);
     try {
       await updatePost(postId, { comment, user });
     } catch (error) {
@@ -81,7 +81,7 @@ export const getAllComments = createAsyncThunk(
         (error) => console.log("snapshot-error", error)
       );
       // Not sure if I need it
-      // await updatePost(postId, { data });
+      await updatePost(postId, { data });
     } catch (error) {
       const errorMessage = error.message;
       return rejectWithValue(errorMessage);

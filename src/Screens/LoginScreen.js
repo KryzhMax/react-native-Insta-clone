@@ -105,7 +105,7 @@ export default function Login({ navigation }) {
                       onChangeText={(val) =>
                         setState((prevState) => ({
                           ...prevState,
-                          [name]: val.toLocaleLowerCase(),
+                          [name]: type === "email" ? val.toLowerCase() : val,
                         }))
                       }
                       onSubmitEditing={() =>

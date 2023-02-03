@@ -148,7 +148,7 @@ export default function Registration({ navigation }) {
                         onChangeText={(val) =>
                           setState((prevState) => ({
                             ...prevState,
-                            [name]: val.toLowerCase(),
+                            [name]: type === "email" ? val.toLowerCase() : val,
                           }))
                         }
                         onSubmitEditing={() =>

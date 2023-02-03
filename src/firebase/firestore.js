@@ -6,6 +6,7 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 import { Alert } from "react-native";
+// import { getAllComments } from "../redux/posts/postsOperations";
 import { db } from "./config";
 
 export const uploadPostToServer = async (post) => {
