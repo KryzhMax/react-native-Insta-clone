@@ -56,6 +56,9 @@ export const styles = StyleSheet.create({
     marginTop: -80,
     marginBottom: 32,
     marginHorizontal: "auto",
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
   },
   avatarReg: {
     width: 120,
@@ -63,8 +66,11 @@ export const styles = StyleSheet.create({
     bottom: -45,
     left: 60,
     transform: [{ translateX: -45 }, { translateY: -45 }],
-    backgroundColor: "#F6F6F6",
     borderRadius: 16,
+    backgroundColor: "#f6f6f6",
+
+    borderWidth: 0.1,
+    borderColor: "#000",
   },
   avatarBox: {
     flexDirection: "row",
@@ -131,7 +137,7 @@ export const styles = StyleSheet.create({
     color: "#1B4371",
   },
   linkText: {
-    color: "tomato",
+    color: "#FF6C00",
   },
   icons: {
     justifyContent: "center",
@@ -284,6 +290,8 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     width: 60,
     height: 60,
+    borderWidth: 0.1,
+    borderColor: "#000",
   },
   avatarPrimaryText: {
     color: "#212121",

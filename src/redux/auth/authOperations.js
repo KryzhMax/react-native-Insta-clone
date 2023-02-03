@@ -19,6 +19,7 @@ export const authSignInUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue, dispatch }) => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
+      console.log("user", user);
       const userToUpdate = {
         userId: user.uid,
         email: user.email,
@@ -45,6 +46,7 @@ export const authSignInUser = createAsyncThunk(
 export const authRegisterUser = createAsyncThunk(
   "auth/register",
   async ({ name, email, password, avatar }, { rejectWithValue, dispatch }) => {
+    let photoURL;
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
@@ -52,12 +54,7 @@ export const authRegisterUser = createAsyncThunk(
         password
       );
 
-      const photoURL = avatar
-        ? await uploadPhotoToServer(avatar, "avatar")
-        : await uploadPhotoToServer(
-            require("../../assets/img/User.jpg"),
-            "avatar"
-          );
+      avatar && (photoURL = await uploadPhotoToServer(avatar, "avatar"));
 
       await updateProfile(auth.currentUser, {
         displayName: name,
@@ -79,7 +76,6 @@ export const authRegisterUser = createAsyncThunk(
       } else {
         Alert.alert("Something went wrong, try to reload the app");
       }
-      dispatch(authStateChange(false));
       return rejectWithValue(errorMessage);
     }
   }
@@ -125,9 +121,7 @@ export const onAvatarChange = createAsyncThunk(
   "auth/onAvatarChange",
   async ({ avatar }, { rejectWithValue, dispatch }) => {
     try {
-      // console.log("1111ava", avatar);
       const photoURL = await uploadPhotoToServer(avatar, "avatar");
-      // console.log("photoURL", photoURL);
       await updateProfile(auth.currentUser, {
         photoURL: photoURL,
       });

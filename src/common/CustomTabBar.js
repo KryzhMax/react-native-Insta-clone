@@ -54,7 +54,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
             <View
               style={{
                 ...styles.icons,
-                backgroundColor: isFocused ? "tomato" : "#fff",
+                backgroundColor: isFocused ? "#FF6C00" : "#fff",
                 shadowOffset: isFocused
                   ? {
                       width: 2,

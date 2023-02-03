@@ -55,8 +55,8 @@ export const getPosts = createAsyncThunk(
 
 export const addComments = createAsyncThunk(
   "posts/getComments",
-
   async ({ postId, comment, user }, { rejectWithValue }) => {
+    console.log("addComments-user", comment);
     try {
       await updatePost(postId, { comment, user });
     } catch (error) {
@@ -70,15 +70,18 @@ export const getAllComments = createAsyncThunk(
   "posts/getAllComments",
   async ({ postId }, { rejectWithValue }) => {
     try {
+      let data;
       await onSnapshot(
         doc(db, "posts", `${postId}`),
         (snapshot) => {
-          const data = snapshot.data().comments;
-
+          data = snapshot.data().post;
+          console.log("!!!Upon update", data);
           return data;
         },
         (error) => console.log("snapshot-error", error)
       );
+      // Not sure if I need it
+      // await updatePost(postId, { data });
     } catch (error) {
       const errorMessage = error.message;
       return rejectWithValue(errorMessage);

@@ -1,9 +1,10 @@
 export const background = require("../assets/img/background.jpeg");
-
+const tempAvatar = require("../assets/img/temp_avatar.jpeg");
 export const regInitState = {
   name: "",
   email: "",
   password: "",
+  // avatar: tempAvatar,
   avatar: null,
 };
 

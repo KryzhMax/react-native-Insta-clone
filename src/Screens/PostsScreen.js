@@ -24,6 +24,7 @@ export default function PostsScreen({ navigation }) {
   const userEmailRef = useSelector(selectEmail);
   const userPhotoRef = useSelector(selectPhoto);
   const dispatch = useDispatch();
+  console.log("postsRef", postsRef);
 
   useEffect(() => {
     dispatch(getPosts());
@@ -61,7 +62,7 @@ export default function PostsScreen({ navigation }) {
                       <Feather
                         name="message-circle"
                         size={18}
-                        color="#bdbdbd"
+                        color={item.comments.length ? "#FF6C00" : "#bdbdbd"}
                       />
                       {"  "}
                       <Text style={{ ...styles.counter }}>

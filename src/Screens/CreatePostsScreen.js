@@ -18,10 +18,8 @@ import { Camera, CameraType } from "expo-camera";
 import * as Location from "expo-location";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-// import { uploadPhotoToServer } from "../firebase/uploadPhoto";
 import { createPostInitState, createPostInputs } from "./variables";
 import { selectPhoto, selectUserId } from "../redux/auth/authSelectors";
-// import { uploadCommentToServer } from "../firebase/firestore";
 import { uploadDataToServer } from "../redux/posts/postsOperations";
 import { styles } from "../Component";
 
@@ -41,7 +39,7 @@ export default function CreatePostsScreen({ navigation }) {
   const [screenWidth, setScreenWidth] = useState(
     Dimensions.get("window").width
   );
-  console.log("location", location);
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -51,7 +49,7 @@ export default function CreatePostsScreen({ navigation }) {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        console.log("Permission to access location was denied");
+        Alert.alert("Permission to access location was denied");
       }
 
       let location = await Location.getCurrentPositionAsync({});
@@ -113,13 +111,12 @@ export default function CreatePostsScreen({ navigation }) {
     };
 
     onChangeText(placePosition, "location");
-    console.log("placePosition", placePosition);
   };
   const takePicture = async () => {
     if (camera) {
       const { uri } = await camera.takePictureAsync();
       setPhoto(uri);
-      console.log("uri", uri);
+
       getLocation();
     }
   };

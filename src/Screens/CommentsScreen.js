@@ -29,19 +29,22 @@ export default function CommentsScreen({ route }) {
 
   const userNameRef = useSelector(selectName);
   const postsRef = useSelector(postsSelector);
-  const dispatch = useDispatch();
   const userAvatarRef = useSelector(selectPhoto);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const { photo, id, userId } = route.params;
     if (route.params) {
       const post = postsRef.find((post) => post.id === route.params.id);
       setPost({ photo: photo, postId: id, userId: userId });
+      dispatch(getAllComments({ postId: id }));
+
       setComments(post.comments);
     }
 
-    dispatch(getAllComments({ postId: id }));
+    // onCommentSend();
   }, [route.params, dispatch]);
+
   const onInputFocus = () => {
     setIsShowKeyboard(true);
     setInputFocus(true);
@@ -92,7 +95,10 @@ export default function CommentsScreen({ route }) {
       userUri: userAvatarRef,
     };
     if (value) {
-      dispatch(addComments({ postId: post.postId, comment: value, user }));
+      dispatch(
+        addComments({ postId: post.postId, comment: value, user: user })
+      );
+      dispatch(getAllComments({ postId: post.postId }));
     }
     onDismiss();
     setValue("");
@@ -134,7 +140,7 @@ export default function CommentsScreen({ route }) {
             style={{
               ...styles.commentInput,
               backgroundColor: inputFocus ? "#f6f6f6" : "#e8e8e8",
-              borderColor: inputFocus ? "tomato" : "rgba(0, 0, 0, 0.3)",
+              borderColor: inputFocus ? "#FF6C00" : "rgba(0, 0, 0, 0.3)",
             }}
             placeholder={"Leave a comment"}
             placeholderTextColor={"#bdbdbd"}
@@ -156,7 +162,7 @@ export default function CommentsScreen({ route }) {
             <Feather
               name="arrow-up"
               size={24}
-              color={inputFocus ? "tomato" : "#000"}
+              color={inputFocus ? "#FF6C00" : "#000"}
             />
           </TouchableOpacity>
         </View>

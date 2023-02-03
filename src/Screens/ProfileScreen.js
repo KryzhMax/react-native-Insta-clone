@@ -20,10 +20,8 @@ import {
   selectName,
   selectPhoto,
 } from "../redux/auth/authSelectors";
-
 import { getPosts } from "../redux/posts/postsOperations";
 import { onLogOut } from "../hooks/useLogout";
-import { uploadPhotoToServer } from "../firebase/uploadPhoto";
 import { onAvatarChange } from "../redux/auth/authOperations";
 
 export default function ProfileScreen({ navigation }) {
@@ -70,16 +68,12 @@ export default function ProfileScreen({ navigation }) {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      // canceled: false,
     });
 
     if (!result.canceled) {
-      // console.log("ava-pre", avatar);
-
       const post = await result.assets[0].uri;
       setAvatar(post);
-      // console.log("result", avatar);
-      dispatch(onAvatarChange({ avatar: post }));
+      dispatch(onAvatarChange({ avatar: avatar }));
     }
   };
 
@@ -102,10 +96,7 @@ export default function ProfileScreen({ navigation }) {
           </View>
           <Text style={styles.userName}>{userName}</Text>
           <View style={styles.avatarBox}>
-            <Image
-              source={{ uri: userPhoto || ava.avatar }}
-              style={styles.avatar}
-            />
+            <Image source={{ uri: userPhoto }} style={styles.avatar} />
             <TouchableOpacity
               style={styles.avatarBtn}
               activeOpacity={0.7}
@@ -158,11 +149,16 @@ export default function ProfileScreen({ navigation }) {
                           params: {
                             photo: item.photo,
                             id: item.id,
+                            userId: userId,
                           },
                         });
                       }}
                     >
-                      <Feather name="message-circle" size={22} color="tomato" />
+                      <Feather
+                        name="message-circle"
+                        size={22}
+                        color={item.comments.length ? "#FF6C00" : "#bdbdbd"}
+                      />
                       <Text style={{ ...styles.count, marginLeft: 6 }}>
                         {item.comments.length}
                       </Text>
@@ -230,8 +226,13 @@ export const styles = StyleSheet.create({
     transform: [{ translateX: 60 }, { translateY: -60 }],
     width: 120,
     height: 120,
-    backgroundColor: "#f6f6f6",
     borderRadius: 16,
+    backgroundColor: "#f6f6f6",
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    borderWidth: 0.1,
+    borderColor: "#000",
   },
   avatar: {
     width: 120,

@@ -9,6 +9,9 @@ const actions = {
     ...state,
     posts: payload,
   }),
+  // updateCommentList: (state, { payload }) => {
+  //   state.posts.posts.comments = payload;
+  // },
 };
 
 export const postsSlice = createSlice({

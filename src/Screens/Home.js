@@ -17,7 +17,6 @@ export default function Home({ navigation }) {
       tabBar={(props) => <CustomTabBar {...props} />}
       initialRouteName="ProfileScreen"
       screenOptions={{
-        // headerShown: false,
         tabBarStyle: [
           {
             display: "flex",

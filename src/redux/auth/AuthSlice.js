@@ -18,13 +18,6 @@ const actions = {
     state.email = payload.email;
     state.avatar = payload.avatar;
     state.isAuth = true;
-
-    // ...state,
-    // userId: payload.userId,
-    // name: payload.name,
-    // email: payload.email,
-    // avatar: payload.avatar,
-    // isAuth: true,
   },
   updateAvatar: (state, { payload }) => ({
     ...state,
