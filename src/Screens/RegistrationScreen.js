@@ -136,9 +136,8 @@ export default function Registration({ navigation }) {
                 </View>
                 {registrationInputs.map(
                   ({ type, name, placeholderTextColor, placeholder }) => (
-                    <View>
+                    <View key={type}>
                       <TextInput
-                        key={type}
                         placeholder={placeholder}
                         placeholderTextColor={placeholderTextColor}
                         value={state[name]}

@@ -1,6 +1,11 @@
 // https://firebase.google.com/docs/web/setup#available-libraries
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import {
+  getAuth,
+  getReactNativePersistence,
+  initializeAuth,
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -24,27 +29,9 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+// export const auth = getAuth(app);
+export const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
 export const db = getFirestore(app);
 export const storage = getStorage(app);
-
-// Import the functions you need from the SDKs you need
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-
-// Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-
-// export const firebaseConfig = {
-//   apiKey: "AIzaSyDD-e0XWGUsUmlxEOZFv5mZva7z1UZ93YE",
-//   authDomain: "rn-social-906d0.firebaseapp.com",
-//   databaseURL:
-//     "https://rn-social-906d0-default-rtdb.europe-west1.firebasedatabase.app",
-//   projectId: "rn-social-906d0",
-//   storageBucket: "rn-social-906d0.appspot.com",
-//   messagingSenderId: "420539286620",
-//   appId: "1:420539286620:web:3eafe20719f468d8da9299",
-// };

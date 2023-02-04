@@ -4,7 +4,6 @@ import {
   Image,
   Text,
   KeyboardAvoidingView,
-  // TouchableWithoutFeedback,
   TextInput,
   TouchableOpacity,
   Keyboard,
@@ -43,7 +42,7 @@ export default function CommentsScreen({ route }) {
     }
 
     // onCommentSend();
-  }, [route.params, dispatch]);
+  }, [route.params, dispatch, setComments]);
 
   const onInputFocus = () => {
     setIsShowKeyboard(true);
@@ -98,17 +97,17 @@ export default function CommentsScreen({ route }) {
       dispatch(
         addComments({ postId: post.postId, comment: value, user: user })
       );
-      dispatch(getAllComments({ postId: post.postId }));
     }
+    dispatch(getAllComments({ postId: post.postId }));
     onDismiss();
     setValue("");
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: "center", marginTop: 32 }}>
+    <SafeAreaView style={styles.commentWrapper}>
       <Image source={{ uri: post.photo }} style={styles.postImg} />
       <FlatList
-        style={{ ...styles.postsList }}
+        style={styles.postsList}
         data={comments}
         keyExtractor={(_, idx) => idx.toString()}
         renderItem={({ item }) => (

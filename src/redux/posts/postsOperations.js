@@ -75,13 +75,12 @@ export const getAllComments = createAsyncThunk(
         doc(db, "posts", `${postId}`),
         (snapshot) => {
           data = snapshot.data().post;
-          console.log("!!!Upon update", data);
           return data;
         },
         (error) => console.log("snapshot-error", error)
       );
       // Not sure if I need it
-      await updatePost(postId, { data });
+      // await updatePost(postId, { data });
     } catch (error) {
       const errorMessage = error.message;
       return rejectWithValue(errorMessage);

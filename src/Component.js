@@ -327,6 +327,11 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     LineHeight: 19,
   },
+  commentWrapper: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 32,
+  },
   commentItemContainer: {
     width: 293,
     backgroundColor: "rgba(0, 0, 0, 0.03)",

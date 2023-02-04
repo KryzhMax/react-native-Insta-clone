@@ -132,6 +132,9 @@ export const onAvatarChange = createAsyncThunk(
       dispatch(updateAvatar(userToUpdate));
     } catch (error) {
       const errorMessage = error.message;
+      if (errorMessage === "Network request failed") {
+        Alert.alert("Low network connection, please try again");
+      }
       return rejectWithValue(errorMessage);
     }
   }
